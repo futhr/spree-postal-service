@@ -1,4 +1,3 @@
-require 'spree_core'
 require 'spree_postal_service_hooks'
 
 module SpreePostalService
