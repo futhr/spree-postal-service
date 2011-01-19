@@ -48,7 +48,7 @@ class Calculator::PostalService < Calculator
     puts prices.join(" ")  if debug
     
     order.line_items.each do |item| # determine total price and weight
-      total_weight += item.quantity * (item.variant.weight  || self.preferred_default_weight)
+      total_weight += item.quantity * (item.variant.weight  || self.preferred_default_weight)
       total_price += item.price * item.quantity
     end
     puts "Weight " + total_weight.to_s  if debug
