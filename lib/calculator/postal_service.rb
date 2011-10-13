@@ -17,7 +17,7 @@ class Calculator::PostalService < Calculator
     
   def self.register
     super
-    ShippingMethod.register_calculator(self)
+#    ShippingMethod.register_calculator(self)
   end
   
   def item_oversized? item
