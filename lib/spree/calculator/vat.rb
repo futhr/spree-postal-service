@@ -1,5 +1,5 @@
 
-class Calculator::PostalService < Spree::Calculator
+class Spree::Calculator::Vat < Spree::Calculator
   preference :weight_table, :string, :default => "1 2 5 10 20"
   preference :price_table, :string, :default => "6 9 12 15 18"
   preference :max_item_weight, :float, :default => 18
@@ -11,7 +11,7 @@ class Calculator::PostalService < Spree::Calculator
   preference :default_weight, :float, :default => 1
   
   def self.description
-    "Postal"
+    "Vat"
 #    I18n.t("postal_service")
   end
     

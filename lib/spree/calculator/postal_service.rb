@@ -1,5 +1,5 @@
 
-class Calculator::PostalService < Spree::Calculator
+class Spree::Calculator::PostalService < Spree::Calculator
   preference :weight_table, :string, :default => "1 2 5 10 20"
   preference :price_table, :string, :default => "6 9 12 15 18"
   preference :max_item_weight, :float, :default => 18
