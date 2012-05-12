@@ -16,5 +16,4 @@ class SpreePostalService < Rails::Engine
 
       app.config.spree.calculators.shipping_methods << Calculator::PostalService 
     end
-  end
 end
