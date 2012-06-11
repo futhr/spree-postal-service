@@ -12,8 +12,8 @@ class SpreePostalService < Rails::Engine
     config.to_prepare &method(:activate).to_proc
 
     initializer "spree.register.calculators" do |app|
-      require 'calculator/postal_service'
+      require 'spree/calculator/postal_service'
 
-      app.config.spree.calculators.shipping_methods << Calculator::PostalService 
+      app.config.spree.calculators.shipping_methods << Spree::Calculator::PostalService 
     end
 end
