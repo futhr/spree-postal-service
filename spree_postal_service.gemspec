@@ -1,15 +1,13 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_postal_service'
-  s.version     = '0.0.2'
-  s.summary     = 'Add gem summary here'
-  #s.description = 'Add (optional) gem description here'
+  s.version     = '1.1'
+  s.summary     = 'Calculate weight based charges for a spree order'
   s.required_ruby_version = '>= 1.8.7'
 
-  s.author            = 'Torsten Rüger'
-  s.email             = 'torsten@lightning.nu'
+  s.author            = 'Torsten Ruger'
+  s.email             = 'torsten@villataika.fi'
   s.homepage          = 'https://github.com/dancinglightning/spree-postal-service'
-  # s.rubyforge_project = 'actionmailer'
 
   s.files        = Dir['CHANGELOG', 'README.md', 'LICENSE', 'lib/**/*', 'app/**/*']
   s.require_path = 'lib'
@@ -17,5 +15,5 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = true
 
-  s.add_dependency('spree_core', '>= 0.30.0')
+  s.add_dependency('spree_core', '>= 1.1')
 end
