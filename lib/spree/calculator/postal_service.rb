@@ -5,7 +5,7 @@ class Spree::Calculator::PostalService < Spree::Calculator
   preference :max_item_weight, :decimal, :default => 18
   preference :max_item_width, :decimal, :default => 60
   preference :max_item_length, :decimal, :default => 120
-  preference :min_price, :decimal, :default => 10
+  preference :max_price, :decimal, :default => 120
   preference :handling_max, :decimal, :default => 50
   preference :handling_fee, :decimal, :default => 10
   preference :default_weight, :decimal, :default => 1
@@ -30,7 +30,6 @@ class Spree::Calculator::PostalService < Spree::Calculator
   end
   
   def available?(order)
-    return false if order.total < self.preferred_min_price
     order.line_items.each do |item| # determine if weight or size goes over bounds
       return false if item.variant.weight and item.variant.weight > self.preferred_max_item_weight
       return false if item_oversized?( item )
@@ -53,6 +52,7 @@ class Spree::Calculator::PostalService < Spree::Calculator
     end
     puts "Weight " + total_weight.to_s  if debug
     puts "Price " + total_price.to_s if debug
+    return 0.0 if order.total > self.preferred_max_price    
     # determine handling fee
     puts "Handling max  " + self.preferred_handling_max.to_s  if debug
     handling_fee = self.preferred_handling_max < total_price  ? 0 : self.preferred_handling_fee
