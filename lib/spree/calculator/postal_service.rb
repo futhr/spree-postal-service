@@ -52,7 +52,7 @@ class Spree::Calculator::PostalService < Spree::Calculator
     end
     puts "Weight " + total_weight.to_s  if debug
     puts "Price " + total_price.to_s if debug
-    return 0.0 if order.total > self.preferred_max_price    
+    return 0.0 if total_price > self.preferred_max_price    
     # determine handling fee
     puts "Handling max  " + self.preferred_handling_max.to_s  if debug
     handling_fee = self.preferred_handling_max < total_price  ? 0 : self.preferred_handling_fee
