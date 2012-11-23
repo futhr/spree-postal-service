@@ -11,5 +11,5 @@
     handling_max: Amount, over which handling fee won't be applied
     min_price: Minimum total of the order
     default_weight: Default weight
-    zipcode_handling: Zipcode handling (<empty> does not apply, exact, starts, ends, contains)
+    zipcode_handling: Zipcode handling (empty field - does not apply, exact, starts, ends, contains)
     zipcode: Zipcode

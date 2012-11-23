@@ -11,5 +11,5 @@
     handling_max: Valor a partir do qual a taxa de tratamento não é aplicada
     min_price: Preço mínimo
     default_weight: Peso por omissão
-    zipcode_handling: Tratamento Código Postal (<vazio> - não activo, exact - exacto, starts - começa por, ends - termina em, contains - contém)
+    zipcode_handling: Tratamento Código Postal (campo vazio - não activo, exact - exacto, starts - começa por, ends - termina em, contains - contém)
     zipcode: Código Postal
