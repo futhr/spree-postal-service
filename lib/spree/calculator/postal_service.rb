@@ -9,6 +9,8 @@ class Spree::Calculator::PostalService < Spree::Calculator
   preference :handling_max, :decimal, :default => 50
   preference :handling_fee, :decimal, :default => 10
   preference :default_weight, :decimal, :default => 1
+
+  attr_accessible :preferred_weight_table, :preferred_price_table, :preferred_max_item_weight, :preferred_max_item_width, :preferred_max_item_length, :preferred_max_price, :preferred_handling_max, :preferred_handling_fee, :preferred_default_weight
   
   def self.description
     "Postal"
