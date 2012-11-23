@@ -6,8 +6,10 @@ A postal service is delivers based on weight only(*). Like most post services in
 This spree extension adds a spree-calculator to model this.
 
 Other features:
-  - size and weight restrictions can be specified
+  - size and weight restrictions by item and by order can be specified
+  - you can also add zip code restrictions
   - you specify a weight/price table 
+  - prices in the price table can be by weight unit (kg)
   - handling fee may be added ( with a maximum when it won't be applied anymore)
   - multi-parcel shipments are automatically created
   - you can specify a maximum order price, orders over this will not be charged
