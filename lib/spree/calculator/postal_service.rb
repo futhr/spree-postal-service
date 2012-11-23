@@ -2,6 +2,7 @@
 class Spree::Calculator::PostalService < Spree::Calculator
   preference :weight_table, :string, :default => "1 2 5 10 20"
   preference :price_table, :string, :default => "6 9 12 15 18"
+  preference :price_table_by_weight_unit, :boolean, :default => false
   preference :max_item_weight_enabled, :boolean, :default => true
   preference :max_item_weight, :decimal, :default => 18
   preference :max_item_width_enabled, :boolean, :default => true
@@ -10,6 +11,8 @@ class Spree::Calculator::PostalService < Spree::Calculator
   preference :max_item_length, :decimal, :default => 120
   preference :max_total_weight_enabled, :boolean, :default => false
   preference :max_total_weight, :decimal, :default => 0
+  preference :min_total_weight_enabled, :boolean, :default => false
+  preference :min_total_weight, :decimal, :default => 0
   preference :max_price_enabled, :boolean, :default => false
   preference :max_price, :decimal, :default => 120
   preference :handling_max, :decimal, :default => 50
@@ -25,7 +28,9 @@ class Spree::Calculator::PostalService < Spree::Calculator
     :preferred_zipcode_handling, :preferred_zipcode_separator, :preferred_zipcodes,
     :preferred_max_total_weight, :preferred_max_item_weight_enabled,
     :preferred_max_item_width_enabled, :preferred_max_item_length_enabled,
-    :preferred_max_total_weight_enabled, :preferred_max_price_enabled 
+    :preferred_max_total_weight_enabled, :preferred_max_price_enabled,
+    :preferred_price_table_by_weight_unit, :preferred_min_total_weight_enabled,
+    :preferred_min_total_weight
   
   def self.description
     "Postal"
@@ -38,11 +43,12 @@ class Spree::Calculator::PostalService < Spree::Calculator
   end
   
   def order_total_weight(order)
-    total_weight = 0
+    return @total_weight if @total_weight
+    @total_weight = 0
     order.line_items.each do |item| # determine total price and weight
-      total_weight += item.quantity * (item.variant.weight  || self.preferred_default_weight)
+      @total_weight += item.quantity * (item.variant.weight  || self.preferred_default_weight)
     end
-    return total_weight
+    return @total_weight
   end
 
   def zipcodes
@@ -87,6 +93,11 @@ class Spree::Calculator::PostalService < Spree::Calculator
     return false if !self.preferred_max_total_weight_enabled
     return order_total_weight(order) > self.preferred_max_total_weight
   end
+
+  def total_underweight? order
+    return false if !self.preferred_min_total_weight_enabled
+    return order_total_weight(order) <= self.preferred_min_total_weight
+  end
   
   def available?(order)
     return false if !handle_zipcode?(order)
@@ -95,6 +106,7 @@ class Spree::Calculator::PostalService < Spree::Calculator
       return false if item_oversized?( item )
     end
     return false if total_overweight?(order)
+    return false if total_underweight?(order)
     return true
   end
   
@@ -122,7 +134,11 @@ class Spree::Calculator::PostalService < Spree::Calculator
     puts weights.join(" ")  if debug
     while total_weight > weights.last  # in several packages if need be
       total_weight -= weights.last
-      shipping += prices.last
+      if(self.preferred_price_table_by_weight_unit)
+        shipping += prices.last * weights.last
+      else
+        shipping += prices.last
+      end
     end
     puts "Shipping  " + shipping.to_s  if debug
     index = weights.length - 2
@@ -130,7 +146,11 @@ class Spree::Calculator::PostalService < Spree::Calculator
       break if total_weight > weights[index] 
       index -= 1
     end
-    shipping +=  prices[index + 1] 
+    if(self.preferred_price_table_by_weight_unit)
+      shipping += prices[index + 1] * total_weight
+    else
+      shipping += prices[index + 1] 
+    end
     puts "Shipping  " + shipping.to_s  if debug
 
     return shipping + handling_fee 

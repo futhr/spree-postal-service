@@ -18,3 +18,6 @@
     max_item_length_enabled: Comprimento máximo por item activo?
     max_total_weight_enabled: Peso total máximo activo?
     max_price_enabled: Preço máximo activo?
+    price_table_by_weight_unit: Preço por unidade de peso?
+    min_total_weight_enabled: Preço total minímo activo?
+    min_total_weight: Preço total minímo
