@@ -6,7 +6,10 @@
     max_item_weight: Peso máximo por item
     max_item_width: Peso máxima por item
     max_item_length: Comprimento máximo por item
+    max_total_weight: Peso total máximo
     handling_fee: Taxa de tratamento
     handling_max: Valor a partir do qual a taxa de tratamento não é aplicada
     min_price: Preço mínimo
     default_weight: Peso por omissão
+    zipcode_handling: Tratamento Código Postal (<vazio> - não activo, exact - exacto, starts - começa por, ends - termina em, contains - contém)
+    zipcode: Código Postal

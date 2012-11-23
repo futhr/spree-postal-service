@@ -6,7 +6,10 @@
     max_item_weight: Max weight of one item 
     max_item_width: Max width of one item 
     max_item_length: Max length of one item 
+    max_total_weight: Peso total máximo
     handling_fee: Handling fee
     handling_max: Amount, over which handling fee won't be applied
     min_price: Minimum total of the order
     default_weight: Default weight
+    zipcode_handling: Zipcode handling (<empty> does not apply, exact, starts, ends, contains)
+    zipcode: Zipcode
