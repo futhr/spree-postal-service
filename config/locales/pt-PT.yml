@@ -1,0 +1,12 @@
+--- 
+  pt-PT:
+    price_table: Preços (separados por espaços)
+    weight_table: Pesos (separados por espaços)
+    postal_service: Serviço Postal
+    max_item_weight: Peso máximo por item
+    max_item_width: Peso máxima por item
+    max_item_length: Comprimento máximo por item
+    handling_fee: Taxa de tratamento
+    handling_max: Valor a partir do qual a taxa de tratamento não é aplicada
+    min_price: Preço mínimo
+    default_weight: Peso por omissão
