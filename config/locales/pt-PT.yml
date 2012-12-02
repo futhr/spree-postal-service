@@ -4,9 +4,20 @@
     weight_table: Pesos (separados por espaços)
     postal_service: Serviço Postal
     max_item_weight: Peso máximo por item
-    max_item_width: Peso máxima por item
+    max_item_width: Largura máxima por item
     max_item_length: Comprimento máximo por item
+    max_total_weight: Peso total máximo
     handling_fee: Taxa de tratamento
     handling_max: Valor a partir do qual a taxa de tratamento não é aplicada
-    min_price: Preço mínimo
+    max_price: Preço máximo
     default_weight: Peso por omissão
+    zipcode_handling: Tratamento Código Postal (campo vazio - não activo, exact - exacto, starts - começa por, ends - termina em, contains - contém)
+    zipcodes: Código(s) Postal(is)
+    max_item_weight_enabled: Peso máximo por item activo?
+    max_item_width_enabled: Largura máxima por item activo?
+    max_item_length_enabled: Comprimento máximo por item activo?
+    max_total_weight_enabled: Peso total máximo activo?
+    max_price_enabled: Preço máximo activo?
+    price_table_by_weight_unit: Preço por unidade de peso?
+    min_total_weight_enabled: Preço total minímo activo?
+    min_total_weight: Preço total minímo

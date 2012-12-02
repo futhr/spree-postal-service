@@ -6,7 +6,18 @@
     max_item_weight: Max weight of one item 
     max_item_width: Max width of one item 
     max_item_length: Max length of one item 
+    max_total_weight: Max total weight
     handling_fee: Handling fee
     handling_max: Amount, over which handling fee won't be applied
-    min_price: Minimum total of the order
+    max_price: Maximum total of the order
     default_weight: Default weight
+    zipcode_handling: Zipcode handling (empty field - does not apply, exact, starts, ends, contains)
+    zipcodes: Zipcode(s)
+    max_item_weight_enabled: Max weight of one item enabled?
+    max_item_width_enabled: Max width of one item enabled?
+    max_item_length_enabled: Max length of one item enabled?
+    max_total_weight_enabled: Max total weight enabled?
+    max_price_enabled: Maximum total of the order enabled?
+    price_table_by_weight_unit: Price by weight unit?
+    min_total_weight_enabled: Min total weight enabled?
+    min_total_weight: Min total weight
