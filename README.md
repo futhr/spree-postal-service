@@ -39,32 +39,32 @@ Optionally add your own locale to config/locales/  (and if you do, send it to me
 Settings:
 ========
 
-Weights "table": A space separated list of weights (must have the same amount of entries as the Prices "table")
-Prices "table": A space separated list of prices (must have the same amount of entries as the Weights "table")
-Price by weight unit?: Indicates if the prices in the price list are by weight unit. If true, then the weight of the order will be multiplied by the price setted for that weight value.
-	Ex: Weights: "1 2 5"; Prices: "5 3 2"; Price By Weight Unit? true. If we have a order with a weight of 2.5kg then the total price will be 7,5. If the "Price By Weight Unit?" was setted to false, the total price would be 3.
-Max weight of one item enable?: Enables the "Max weight of one item" verification.
-Max weight of one item: Max weight of any item in the order may have to enable the shipping method.
-Max width of one item enabled?: Enables the "Max width of one item" verification.
-Max width of one item: Max width that any item in the order may have to enable the shipping method.
-Max length of one item enabled?: Enables the "Max length of one item" verification.
-Max length of one item: Max length that any item in the order may have to enable the shipping method.
-Max total weight enabled?: Enables the "Max total weight" verification.
-Max total weight: Max total weight of the order to enable the shipping method.
-Min total weight enabled?: Enables the "Min total weight" verification.
-Min total weight: Min total weight of the order to enable the shipping method.
-Maximum total of the order enabled?: Enables the "Maximum total of the order" verification.
-Maximum total of the order: Order price after which the shipping cost will be 0.
-Amount, over which handling fee won't be applied: Self explained.
-Handling fee: The handling fee.
-Default weight: The default weight to be used on any product that doesn't have a weight value defined.
-Zipcode handling (empty field - does not apply, exact, starts, ends, contains): When the value is one of "exact", "starts", "ends" or "contains", it will validate the zipcode of the shipping adress and enable the shipping method.
+- Weights "table": A space separated list of weights (must have the same amount of entries as the Prices "table")
+- Prices "table": A space separated list of prices (must have the same amount of entries as the Weights "table")
+- Price by weight unit?: Indicates if the prices in the price list are by weight unit. If true, then the weight of the order will be multiplied by the price setted for that weight value.
+	- e.g.: Weights: "1 2 5"; Prices: "5 3 2"; Price By Weight Unit? true. If we have a order with a weight of 2.5kg then the total price will be 7,5. If the "Price By Weight Unit?" was setted to false, the total price would be 3.
+- Max weight of one item enable?: Enables the "Max weight of one item" verification.
+- Max weight of one item: Max weight of any item in the order may have to enable the shipping method.
+- Max width of one item enabled?: Enables the "Max width of one item" verification.
+- Max width of one item: Max width that any item in the order may have to enable the shipping method.
+- Max length of one item enabled?: Enables the "Max length of one item" verification.
+- Max length of one item: Max length that any item in the order may have to enable the shipping method.
+- Max total weight enabled?: Enables the "Max total weight" verification.
+- Max total weight: Max total weight of the order to enable the shipping method.
+- Min total weight enabled?: Enables the "Min total weight" verification.
+- Min total weight: Min total weight of the order to enable the shipping method.
+- Maximum total of the order enabled?: Enables the "Maximum total of the order" verification.
+- Maximum total of the order: Order price after which the shipping cost will be 0.
+- Amount, over which handling fee won't be applied: Self explained.
+- Handling fee: The handling fee.
+- Default weight: The default weight to be used on any product that doesn't have a weight value defined.
+- Zipcode handling (empty field - does not apply, exact, starts, ends, contains): When the value is one of "exact", "starts", "ends" or "contains", it will validate the zipcode of the shipping adress and enable the shipping method.
 	- When the value is "starts", the shipping adress zipcode must equal to any of the defined zipcodes in the Zipcode(s) field;
 	- When the value is "starts", the shipping adress zipcode must start with any of the defined zipcode "parts" in the Zipcode(s) field;
 	- When the value is "ends", the shipping adress zipcode must end with any of the defined zipcode "parts" in the Zipcode(s) field;
 	- When the value is "contains", the shipping adress zipcode must contains any of the defined zipcode "parts" in the Zipcode(s) field;
-Zipcode separator: The separator to be used when specifying several zipcodes in the "Zipcode(s)" field.
-Zipcode(s): Zipcode(s), or parts of them, to be used to check if the shipping method is available. When using several zipcodes, the separator must be the one indicated in the "Zipcode separator field".
+- Zipcode separator: The separator to be used when specifying several zipcodes in the "Zipcode(s)" field.
+- Zipcode(s): Zipcode(s), or parts of them, to be used to check if the shipping method is available. When using several zipcodes, the separator must be the one indicated in the "Zipcode separator field".
 
 Example:
 =======
