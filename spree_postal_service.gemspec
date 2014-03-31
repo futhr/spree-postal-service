@@ -7,7 +7,7 @@ require 'spree_postal_service/version'
 Gem::Specification.new do |s|
   s.platform     = Gem::Platform::RUBY
   s.name         = 'spree_postal_service'
-  s.version      = SpreePostalService::version
+  s.version      = SpreePostalService.version
   s.summary      = 'Calculate weight based charges for a Spree order'
   s.description  = s.summary
   s.required_ruby_version = '>= 1.9.3'
