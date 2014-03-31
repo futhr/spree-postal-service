@@ -1,5 +1,6 @@
---- 
-  pt-PT:
+---
+pt:
+  spree:
     price_table: Preços (separados por espaços)
     weight_table: Pesos (separados por espaços)
     postal_service: Serviço Postal
@@ -10,3 +11,4 @@
     handling_max: Valor a partir do qual a taxa de tratamento não é aplicada
     min_price: Preço mínimo
     default_weight: Peso por omissão
+    max_price: Preço máximo
