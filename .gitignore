@@ -7,3 +7,5 @@
 tmp
 nbproject
 *.swp
+Gemfile.lock
+.rvmrc

@@ -7,7 +7,7 @@ require 'spree_core/testing_support/common_rake'
 
 RSpec::Core::RakeTask.new
 
-task :default => [:spec, :cucumber ]
+task :default => [:spec]
 
 spec = eval(File.read('spree_postal_service.gemspec'))
 
