@@ -1,14 +1,12 @@
 ---
 sv:
-  spree:
-    price_table: Priser (mellanrums separerade)
-    weight_table: Vikter (mellanrums separerade)
-    postal_service: Post Service
-    max_item_weight: Max vikt på ett objekt
-    max_item_width: Max bredd på ett objekt
-    max_item_length: Max längd på ett objekt
-    handling_fee: Hantering avgift
-    handling_max: "Belopp, över vilken expeditionsavgift inte skall tillämpas"
-    min_price: Minsta belopp
-    default_weight: Förvald vikt
-    max_price: Största belopp
+  price_table: Priser (mellanrums separerade)
+  weight_table: Vikter (mellanrums separerade)
+  postal_service: Post Service
+  max_item_weight: Max vikt på ett objekt
+  max_item_width: Max bredd på ett objekt
+  max_item_length: Max längd på ett objekt
+  handling_fee: Hantering avgift
+  handling_max: "Belopp, över vilken expeditionsavgift inte skall tillämpas"
+  min_price: Minsta belopp
+  default_weight: Förvald vikt
