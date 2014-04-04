@@ -7,7 +7,7 @@ Here are some ways *you* can contribute:
 * by using prerelease versions
 * by reporting [bugs][2]
 * by suggesting new features
-* by writing translations
+* by writing [translations][3]
 * by writing or editing documentation
 * by writing specifications
 * by writing code (*no patch is too small*: fix typos, add comments, clean up inconsistent whitespace)
@@ -27,3 +27,4 @@ Starting point:
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
 [2]: https://github.com/futhr/spree-postal-service/issues
+[3]: http://www.localeapp.com/projects/4917
