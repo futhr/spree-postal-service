@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version      = SpreePostalService.version
   s.summary      = 'Calculate weight based charges for a Spree order'
   s.description  = s.summary
-  s.required_ruby_version = '>= 1.8.7'
+  s.required_ruby_version = '>= 1.9.3'
 
   s.authors      = ['Torsten Rüger', 'Tobias Bohwalli']
   s.email        = 'hi@futhr.io'
@@ -24,11 +24,11 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_dependency 'spree_core', '~> 1.3.0'
+  s.add_dependency 'spree_core', '~> 2.0.0'
 
-  s.add_development_dependency 'rspec', '~> 2.7.0'
-  s.add_development_dependency 'rspec-rails', '~> 2.7'
-  s.add_development_dependency 'factory_girl', '~> 2.6.3'
+  s.add_development_dependency 'rspec', '~> 2.14.0'
+  s.add_development_dependency 'rspec-rails', '~> 2.14.0'
+  s.add_development_dependency 'factory_girl', '~> 4.2'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'i18n-spec'

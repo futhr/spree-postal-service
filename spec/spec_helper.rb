@@ -15,7 +15,7 @@ require 'i18n-spec'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
 
-require 'spree/core/testing_support/factories'
+require 'spree/testing_support/factories'
 
 RSpec.configure do |config|
   config.mock_with :rspec
