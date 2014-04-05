@@ -2,6 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=1-3-stable)](https://travis-ci.org/futhr/spree-postal-service)
 [![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service.png)](https://codeclimate.com/github/futhr/spree-postal-service)
+[![Gem Version](https://badge.fury.io/rb/spree_postal_service.png)](http://badge.fury.io/rb/spree_postal_service)
 
 A postal service is delivers based on weight only(*). Like most post services in europe will.
 
