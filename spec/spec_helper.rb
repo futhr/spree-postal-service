@@ -22,5 +22,4 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.include FactoryGirl::Syntax::Methods
-  config.include Spree::Core::UrlHelpers
 end
