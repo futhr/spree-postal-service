@@ -9,19 +9,18 @@ ENV['RAILS_ENV'] = 'test'
 
 require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 
+require 'ffaker'
 require 'rspec/rails'
 require 'i18n-spec'
-require 'shoulda-matchers'
-require 'ffaker'
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
 
-require 'spree/testing_support/factories'
+require 'spree/core/testing_support/factories'
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
   config.mock_with :rspec
-  config.use_transactional_fixtures = false
-end
+  config.use_transactional_fixtures = true
 
-@configuration ||= AppConfiguration.find_or_create_by_name('Default configuration')
+  config.include FactoryGirl::Syntax::Methods
+  config.include Spree::Core::UrlHelpers
+end

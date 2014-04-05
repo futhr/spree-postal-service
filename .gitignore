@@ -9,3 +9,6 @@ nbproject
 *.swp
 Gemfile.lock
 .rvmrc
+.localeapp
+coverage
+spec/dummy
