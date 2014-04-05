@@ -1,6 +1,6 @@
 # Spree Postal Service
 
-[![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=1-1-stable)](https://travis-ci.org/futhr/spree-postal-service)
+[![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=1-2-stable)](https://travis-ci.org/futhr/spree-postal-service)
 [![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service.png)](https://codeclimate.com/github/futhr/spree-postal-service)
 
 A postal service is delivers based on weight only(*). Like most post services in europe will.
@@ -24,7 +24,7 @@ Use the same measurements as in the product info page.
 
 Add to your `Gemfile`:
 ```ruby
-gem 'spree_postal_service', '~> 1.1.2'
+gem 'spree_postal_service', '~> 1.2.0'
 ```
 
 Go to admin interface
