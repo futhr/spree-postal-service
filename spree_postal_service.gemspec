@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_dependency 'spree_core', '~> 1.2.0'
+  s.add_dependency 'spree_core', '~> 1.3.0'
 
   s.add_development_dependency 'rspec', '~> 2.7.0'
   s.add_development_dependency 'rspec-rails', '~> 2.7'
