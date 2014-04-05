@@ -1,6 +1,6 @@
 # Spree Postal Service
 
-[![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=2-2-stable)](https://travis-ci.org/futhr/spree-postal-service)
+[![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=master)](https://travis-ci.org/futhr/spree-postal-service)
 [![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service.png)](https://codeclimate.com/github/futhr/spree-postal-service)
 [![Gem Version](https://badge.fury.io/rb/spree_postal_service.png)](http://badge.fury.io/rb/spree_postal_service)
 
@@ -25,7 +25,7 @@ Use the same measurements as in the product info page.
 
 Add to your `Gemfile`:
 ```ruby
-gem 'spree_postal_service', '~> 2.2.0'
+gem 'spree_postal_service', github: 'futhr/spree-postal-service', branch: 'master'
 ```
 
 Go to admin interface

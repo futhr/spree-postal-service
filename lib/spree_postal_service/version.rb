@@ -7,9 +7,9 @@ module SpreePostalService
 
   module VERSION
     MAJOR = 2
-    MINOR = 2
+    MINOR = 3
     TINY  = 0
-    PRE   = nil
+    PRE   = 'beta'
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
   end
