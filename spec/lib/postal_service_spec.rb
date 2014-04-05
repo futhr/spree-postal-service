@@ -15,7 +15,7 @@ describe Spree::Calculator::PostalService do
     context 'in any language' do
       before { I18n.locale = :pt }
       specify do
-        postal_service_calculator.description.should == I18n.t(:postal_service)
+        postal_service_calculator.description.should == Spree.t(:postal_service)
       end
     end
   end

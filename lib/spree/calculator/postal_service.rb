@@ -20,7 +20,7 @@ class Spree::Calculator::PostalService < Spree::Calculator
                   :preferred_default_weight
 
   def self.description
-    I18n.t(:postal_service)
+    Spree.t(:postal_service)
   end
 
   def self.register
