@@ -24,7 +24,7 @@ Use the same measurements as in the product info page.
 
 Add to your `Gemfile`:
 ```ruby
-gem 'spree_postal_service',  github: 'futhr/spree-postal-service', branch: '1-1-stable'
+gem 'spree_postal_service', '~> 1.1.2'
 ```
 
 Go to admin interface

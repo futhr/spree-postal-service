@@ -12,3 +12,5 @@ Gemfile.lock
 .localeapp
 coverage
 spec/dummy
+pkg/
+*.gem
