@@ -1,26 +1,16 @@
-class Spree::Calculator::PostalService < Spree::Calculator
-  preference :weight_table,    :string,  :default => '1 2 5 10 20'
-  preference :price_table,     :string,  :default => '6 9 12 15 18'
-  preference :max_item_weight, :decimal, :default => 18
-  preference :max_item_width,  :decimal, :default => 60
-  preference :max_item_length, :decimal, :default => 120
-  preference :max_price,       :decimal, :default => 120
-  preference :handling_max,    :decimal, :default => 50
-  preference :handling_fee,    :decimal, :default => 10
-  preference :default_weight,  :decimal, :default => 1
-
-  attr_accessible :preferred_weight_table,
-                  :preferred_price_table,
-                  :preferred_max_item_weight,
-                  :preferred_max_item_width,
-                  :preferred_max_item_length,
-                  :preferred_max_price,
-                  :preferred_handling_max,
-                  :preferred_handling_fee,
-                  :preferred_default_weight
+class Spree::Calculator::Shipping::PostalService < Spree::ShippingCalculator
+  preference :weight_table,    :string,  default: '1 2 5 10 20'
+  preference :price_table,     :string,  default: '6 9 12 15 18'
+  preference :max_item_weight, :decimal, default: 18
+  preference :max_item_width,  :decimal, default: 60
+  preference :max_item_length, :decimal, default: 120
+  preference :max_price,       :decimal, default: 120
+  preference :handling_max,    :decimal, default: 50
+  preference :handling_fee,    :decimal, default: 10
+  preference :default_weight,  :decimal, default: 1
 
   def self.description
-    I18n.t(:postal_service)
+    Spree.t(:postal_service)
   end
 
   def self.register
@@ -35,12 +25,12 @@ class Spree::Calculator::PostalService < Spree::Calculator
     ].sort.reverse
 
     return true if sizes[0] > self.preferred_max_item_length # longest side
-    return true if sizes[0] > self.preferred_max_item_width  # second longest side
+    return true if sizes[1] > self.preferred_max_item_width  # second longest side
     return false
   end
 
-  def available?(shipment)
-    variants = shipment.line_items.map(&:variant)
+  def available?(package)
+    variants = package.contents.map(&:variant)
     variants.each do |variant| # determine if weight or size goes over bounds
       return false if variant.weight && variant.weight > self.preferred_max_item_weight # 18
       return false if item_oversized? variant
@@ -49,8 +39,8 @@ class Spree::Calculator::PostalService < Spree::Calculator
   end
 
   # as order_or_line_items we always get line items, as calculable we have Coupon, ShippingMethod or ShippingRate
-  def compute(shipment)
-    order = shipment.order
+  def compute(package)
+    order = package.order
 
     total_price, total_weight, shipping = 0, 0, 0
     prices = self.preferred_price_table.split.map { |price| price.to_f }
