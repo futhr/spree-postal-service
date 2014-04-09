@@ -1,6 +1,7 @@
 # Spree Postal Service
 
 [![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=master)](https://travis-ci.org/futhr/spree-postal-service)
+[![Coverage Status](https://coveralls.io/repos/futhr/spree-postal-service/badge.png?branch=master)](https://coveralls.io/r/futhr/spree-postal-service)
 [![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service.png)](https://codeclimate.com/github/futhr/spree-postal-service)
 [![Gem Version](https://badge.fury.io/rb/spree_postal_service.png)](http://badge.fury.io/rb/spree_postal_service)
 

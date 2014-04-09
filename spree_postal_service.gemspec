@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'factory_girl', '~> 4.4'
   s.add_development_dependency 'sqlite3', '>= 1.3.9'
   s.add_development_dependency 'simplecov', '>= 0.7.1'
+  s.add_development_dependency 'coveralls', '>= 0.7.0'
   s.add_development_dependency 'i18n-spec', '>= 0.4.1'
   s.add_development_dependency 'ffaker', '>= 1.24.0'
   s.add_development_dependency 'guard-rspec', '>= 4.2.8'

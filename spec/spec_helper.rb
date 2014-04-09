@@ -1,5 +1,11 @@
 require 'simplecov'
+require 'coveralls'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
 SimpleCov.start do
+  add_filter '/.bundle'
   add_filter '/spec/'
   add_filter '/lib/spree_postal_service/engine'
   add_group 'Libraries', 'lib'
