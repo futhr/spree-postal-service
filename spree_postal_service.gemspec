@@ -36,4 +36,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'ffaker', '>= 1.24.0'
   s.add_development_dependency 'guard-rspec', '>= 4.2.8'
   s.add_development_dependency 'pry-rails', '>= 0.3.2'
+  s.add_development_dependency 'localeapp', '>= 0.7.2'
 end
