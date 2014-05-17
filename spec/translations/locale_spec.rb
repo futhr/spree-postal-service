@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'locale:' do
   Dir.glob('config/locales/*.yml') do |locale_file|
     context locale_file do

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Spree::Calculator::Shipping::PostalService do
 
   let(:postal_service_calculator) { described_class.new }
@@ -21,7 +19,7 @@ describe Spree::Calculator::Shipping::PostalService do
   end
 
   describe ':using the default weight-price table: [1 2 5 10 20] => [6 9 12 15 18]' do
-    context '#compute:' do
+    context '.compute:' do
       it 'gives 15.0 when total price is 100 and weight is 10kg' do
         create_our_package(weight: 10.0, price: 100.0, quantity: 1)
         result = postal_service_calculator.compute(@package)
@@ -80,32 +78,32 @@ describe Spree::Calculator::Shipping::PostalService do
   end
 
   describe 'when preferred max weight, length and width are 18 kg, 120 cm and 60 cm' do
-    context '#available?' do
+    context '.available?' do
       it 'is false when item weighs more than 18kg' do
         create_our_package(weight: 20, height: 70, width: 30, depth: 30)
-        expect(postal_service_calculator.available?(@package)).to be_false
+        expect(postal_service_calculator.available?(@package)).to be(false)
       end
 
       it 'is false when item is longer than 120cm' do
         create_our_package(weight: 10, height: 130, width: 30, depth: 30)
-        expect(postal_service_calculator.available?(@package)).to be_false
+        expect(postal_service_calculator.available?(@package)).to be(false)
       end
 
       it 'is false when item is wider than 60cm' do
         create_our_package(weight: 10, height: 80, width: 70, depth: 30)
-        expect(postal_service_calculator.available?(@package)).to be_false
+        expect(postal_service_calculator.available?(@package)).to be(false)
       end
       end
 
-      context '#item_oversized?' do
+      context '.item_oversized?' do
       it 'is true if the longest side is more than 120cm' do
         create_our_package(weight: 10, height: 130, width: 40, depth: 30)
-        expect(postal_service_calculator.item_oversized?(@variant)).to be_true
+        expect(postal_service_calculator.item_oversized?(@variant)).to be(true)
       end
 
       it 'is true if the second longest side is more than 60cm' do
         create_our_package(weight: 10, height: 80, width: 70, depth: 30)
-        expect(postal_service_calculator.item_oversized?(@variant)).to be_true
+        expect(postal_service_calculator.item_oversized?(@variant)).to be(true)
       end
     end
   end

@@ -19,7 +19,7 @@ require 'ffaker'
 require 'rspec/rails'
 require 'i18n-spec'
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |file| require file }
 
 require 'spree/testing_support/factories'
 
