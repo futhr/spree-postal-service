@@ -27,4 +27,4 @@ Starting point:
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
 [2]: https://github.com/futhr/spree-postal-service/issues
-[3]: http://www.localeapp.com/projects/4917
+[3]: https://github.com/futhr/spree-postal-service/blob/master/config/locales
