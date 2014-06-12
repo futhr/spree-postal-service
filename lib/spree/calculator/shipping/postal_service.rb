@@ -32,18 +32,18 @@ class Spree::Calculator::Shipping::PostalService < Spree::ShippingCalculator
   def available?(package)
     variants = package.contents.map(&:variant)
     variants.each do |variant| # determine if weight or size goes over bounds
-      return false if variant.weight && variant.weight > self.preferred_max_item_weight # 18
+      return false if item_within_bounds? variant.weight # 18
       return false if item_oversized? variant
     end
     return true
   end
 
-  # as order_or_line_items we always get line items, as calculable we have Coupon, ShippingMethod or ShippingRate
+  # As order_or_line_items we always get line items, as calculable we have
+  # Coupon, ShippingMethod or ShippingRate
   def compute(package)
     order = package.order
 
     total_price, total_weight, shipping = 0, 0, 0
-    prices = self.preferred_price_table.split.map { |price| price.to_f }
 
     order.line_items.each do |item| # determine total price and weight
       total_weight += item.quantity * (item.variant.weight || self.preferred_default_weight)
@@ -51,10 +51,6 @@ class Spree::Calculator::Shipping::PostalService < Spree::ShippingCalculator
     end
 
     return 0.0 if total_price > self.preferred_max_price
-
-    # determine handling fee
-    handling_fee = self.preferred_handling_max < total_price ? 0 : self.preferred_handling_fee
-    weights      = self.preferred_weight_table.split.map { |weight| weight.to_f }
 
     while total_weight > weights.last # in several packages if need be
       total_weight -= weights.last
@@ -68,6 +64,24 @@ class Spree::Calculator::Shipping::PostalService < Spree::ShippingCalculator
     end
 
     shipping += prices[index + 1]
-    return shipping + handling_fee
+    return shipping + handling_fee(total_price)
+  end
+
+  private
+
+  def item_within_bounds?(weight)
+    weight && weight > self.preferred_max_item_weight
+  end
+
+  def handling_fee(total_price)
+    self.preferred_handling_max < total_price ? 0 : self.preferred_handling_fee
+  end
+
+  def prices
+    self.preferred_price_table.split.map { |price| price.to_f }
+  end
+
+  def weights
+    self.preferred_weight_table.split.map { |weight| weight.to_f }
   end
 end
