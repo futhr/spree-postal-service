@@ -14,3 +14,4 @@ spec/dummy
 pkg/
 *.gem
 .bundle
+.ruby-version
