@@ -1,9 +1,9 @@
 # Spree Postal Service
 
-[![Build Status](https://api.travis-ci.org/futhr/spree-postal-service.png?branch=master)](https://travis-ci.org/futhr/spree-postal-service)
-[![Coverage Status](https://coveralls.io/repos/futhr/spree-postal-service/badge.png?branch=master)](https://coveralls.io/r/futhr/spree-postal-service)
-[![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service.png)](https://codeclimate.com/github/futhr/spree-postal-service)
-[![Gem Version](https://badge.fury.io/rb/spree_postal_service.png)](http://badge.fury.io/rb/spree_postal_service)
+[![Build Status](https://travis-ci.org/futhr/spree-postal-service.svg?branch=master)](https://travis-ci.org/futhr/spree-postal-service)
+[![Coverage Status](https://img.shields.io/coveralls/futhr/spree-postal-service.svg)](https://coveralls.io/r/futhr/spree-postal-service?branch=master)
+[![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service/badges/gpa.svg)](https://codeclimate.com/github/futhr/spree-postal-service)
+[![Gem Version](https://badge.fury.io/rb/spree_postal_service.svg)](http://badge.fury.io/rb/spree_postal_service)
 
 A postal service is delivers based on weight only(*). Like most post services in europe will.
 
