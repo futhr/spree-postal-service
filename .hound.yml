@@ -1,3 +1,25 @@
 ---
+# Too picky.
 LineLength:
+  Enabled: false
+
+# This should truly be on for well documented gems.
+Documentation:
+  Enabled: false
+
+# Neatly aligned code is to swell.
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+# Rubocop default is leading but hound-ci use trailing.
+DotPosition:
+  EnforcedStyle: leading
+
+# Don't mess with RSpec DSL.
+Blocks:
+  Exclude:
+    - 'spec/**/*'
+
+# We really like the readability with newline in beginning of classes.
+EmptyLinesAroundBody:
   Enabled: false
