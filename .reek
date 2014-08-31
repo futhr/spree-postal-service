@@ -1,0 +1,19 @@
+---
+UncommunicativeVariableName:
+  accept:
+    - t
+    - c
+NestedIterators:
+  max_allowed_nesting: 2
+DuplicateMethodCall:
+  enabled: false
+IrresponsibleModule:
+  enabled: false
+FeatureEnvy:
+  enabled: false
+TooManyMethods:
+  enabled: false
+TooManyStatements:
+  enabled: false
+UtilityFunction:
+  enabled: false
