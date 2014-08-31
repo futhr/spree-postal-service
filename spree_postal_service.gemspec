@@ -1,6 +1,6 @@
 # coding: utf-8
 lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
+$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
 
 require 'spree_postal_service/version'
 
@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
 
   s.authors      = ['Torsten Rüger', 'Tobias Bohwalli']
-  s.email        = 'hi@futhr.io'
+  s.email        = ['torsten@villataika.fi', 'hi@futhr.io']
   s.homepage     = 'https://github.com/futhr/spree-postal-service'
-  s.license      = %q{BSD-3}
+  s.license      = 'BSD-3'
 
   s.files        = `git ls-files`.split("\n")
   s.test_files   = `git ls-files -- spec/*`.split("\n")
@@ -37,6 +37,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coffee-rails', '~> 4.0.0'
   s.add_development_dependency 'sass-rails', '~> 4.0.0'
   s.add_development_dependency 'pry-rails', '>= 0.3.2'
+  s.add_development_dependency 'database_cleaner', '1.2.0'
   s.add_development_dependency 'guard-rspec', '>= 4.2.8'
   s.add_development_dependency 'guard-rubocop', '>= 1.1.0'
   s.add_development_dependency 'rubocop', '>= 0.24.1'
