@@ -1,6 +1,7 @@
 module SpreePostalService
 
-  # Returns the version of the currently loaded SpreePostalService as a <tt>Gem::Version</tt>
+  # Returns the version of the currently loaded SpreePostalService as a
+  # <tt>Gem::Version</tt>.
   def self.version
     Gem::Version.new VERSION::STRING
   end
