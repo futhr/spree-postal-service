@@ -92,11 +92,11 @@ module Spree
         end
 
         def prices
-          @prices ||= preferred_price_table.split.map { |price| price.to_f }
+          @prices ||= preferred_price_table.split.map(&:to_f)
         end
 
         def weights
-          @weights ||= preferred_weight_table.split.map { |weight| weight.to_f }
+          @weights ||= preferred_weight_table.split.map(&:to_f)
         end
       end
     end
