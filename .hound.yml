@@ -21,5 +21,11 @@ Blocks:
     - 'spec/**/*'
 
 # We really like the readability with newline in beginning of classes.
-EmptyLinesAroundBody:
+EmptyLinesAroundMethodBody:
+  Enabled: false
+
+EmptyLinesAroundClassBody:
+  Enabled: false
+
+EmptyLinesAroundModuleBody:
   Enabled: false
