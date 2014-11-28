@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
   s.version      = SpreePostalService.version
   s.summary      = 'Calculate weight based charges for a Spree order'
   s.description  = s.summary
-  s.required_ruby_version = '>= 1.9.3'
+
+  s.required_ruby_version     = '>= 2.1.0'
+  s.required_rubygems_version = '>= 1.8.23'
 
   s.authors      = ['Torsten Rüger', 'Tobias Bohwalli']
   s.email        = ['torsten@villataika.fi', 'hi@futhr.io']
