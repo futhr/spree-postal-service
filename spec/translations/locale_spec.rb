@@ -1,5 +1,4 @@
 RSpec.describe 'locale:' do
-
   Dir.glob('config/locales/*.yml') do |locale_file|
     context locale_file do
       it { is_expected.to be_parseable }

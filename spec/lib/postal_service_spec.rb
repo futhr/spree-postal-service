@@ -1,5 +1,4 @@
 RSpec.describe Spree::Calculator::Shipping::PostalService do
-
   subject { described_class.new }
 
   context 'returns description' do

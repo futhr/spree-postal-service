@@ -23,7 +23,6 @@ ActiveRecord::Migration.maintain_test_schema!
 ActiveRecord::Migration.check_pending!
 
 RSpec.configure do |config|
-
   config.fail_fast = false
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
