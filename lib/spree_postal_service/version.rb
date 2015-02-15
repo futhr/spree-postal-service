@@ -7,8 +7,8 @@ module SpreePostalService
   end
 
   module VERSION
-    MAJOR = 2
-    MINOR = 4
+    MAJOR = 3
+    MINOR = 0
     TINY  = 0
     PRE   = nil
 
