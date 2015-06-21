@@ -27,8 +27,8 @@ module Spree
 
         def item_oversized?(variant)
           sizes = [
-            variant.width  ? variant.width  : 0,
-            variant.depth  ? variant.depth  : 0,
+            variant.width ? variant.width : 0,
+            variant.depth ? variant.depth : 0,
             variant.height ? variant.height : 0
           ].sort.reverse
 
@@ -50,7 +50,9 @@ module Spree
         # Coupon, ShippingMethod or ShippingRate.
         def compute(package)
           @line_items ||= package.order.line_items
-          total_price, total_weight, shipping = compute_total_price, compute_total_weight, 0
+          total_price  = compute_total_price
+          total_weight = compute_total_weight
+          shipping     = 0
 
           return 0.0 if total_price > preferred_max_price
 

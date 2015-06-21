@@ -1,31 +1,34 @@
 ---
 # Too picky.
-LineLength:
+Metrics/LineLength:
   Enabled: false
 
 # This should truly be on for well documented gems.
-Documentation:
+Style/Documentation:
   Enabled: false
 
 # Neatly aligned code is to swell.
-SingleSpaceBeforeFirstArg:
+Style/SingleSpaceBeforeFirstArg:
   Enabled: false
 
 # Rubocop default is leading but hound-ci use trailing.
-DotPosition:
+Style/DotPosition:
   EnforcedStyle: leading
 
 # Don't mess with RSpec DSL.
-Blocks:
+Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*'
 
 # We really like the readability with newline in beginning of classes.
-EmptyLinesAroundMethodBody:
+Style/EmptyLinesAroundMethodBody:
   Enabled: false
 
-EmptyLinesAroundClassBody:
+Style/EmptyLinesAroundClassBody:
   Enabled: false
 
-EmptyLinesAroundModuleBody:
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Metrics/AbcSize:
   Enabled: false
