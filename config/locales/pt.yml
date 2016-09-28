@@ -1,14 +1,14 @@
 ---
 pt:
   spree:
-    price_table: Preços (separados por espaços)
-    weight_table: Pesos (separados por espaços)
-    postal_service: Serviço Postal
+    price_table: Preços (separados por espaços. Use ponto para casas decimais)
+    weight_table: Pesos (separados por espaços. Use ponto para casas decimais)
+    postal_service: Envio baseado em peso
     max_item_weight: Peso máximo por item
     max_item_width: Peso máxima por item
     max_item_length: Comprimento máximo por item
-    handling_fee: Taxa de tratamento
-    handling_max: Valor a partir do qual a taxa de tratamento não é aplicada
+    handling_fee: Taxa de manuseio
+    handling_max: Valor a partir do qual a taxa de manuseio não é aplicada
     min_price: Preço mínimo
-    default_weight: Peso por omissão
+    default_weight: Peso padrão (Caso produto não possua peso)
     max_price: Preço máximo
