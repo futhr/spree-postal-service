@@ -8,7 +8,7 @@ Style/Documentation:
   Enabled: false
 
 # Neatly aligned code is to swell.
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: false
 
 # Rubocop default is leading but hound-ci use trailing.
@@ -30,5 +30,11 @@ Style/EmptyLinesAroundClassBody:
 Style/EmptyLinesAroundModuleBody:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
   Enabled: false
