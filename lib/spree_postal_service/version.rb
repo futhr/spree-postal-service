@@ -7,10 +7,10 @@ module SpreePostalService
   end
 
   module VERSION
-    MAJOR = 2
-    MINOR = 4
+    MAJOR = 3
+    MINOR = 3
     TINY  = 0
-    PRE   = nil
+    PRE   = 'alpha'.freeze
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
   end
