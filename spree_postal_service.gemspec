@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary      = 'Calculate weight based charges for a Spree order'
   s.description  = s.summary
 
-  s.required_ruby_version     = '>= 2.1.0'
+  s.required_ruby_version     = '>= 2.2.2'
   s.required_rubygems_version = '>= 1.8.23'
 
   s.authors      = ['Torsten Rüger', 'Tobias Bohwalli']
@@ -26,8 +26,9 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_runtime_dependency 'spree_core', '~> 3.1.0.beta'
+  s.add_runtime_dependency 'spree_core', '~> 3.1.0'
 
+  s.add_development_dependency 'rake', '< 11.0'
   s.add_development_dependency 'rspec-rails', '~> 3.3.0'
   s.add_development_dependency 'factory_girl', '>= 4.4'
   s.add_development_dependency 'sqlite3', '~> 1.3.10'
@@ -41,4 +42,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'database_cleaner', '1.4.1'
   s.add_development_dependency 'guard-rspec', '>= 4.2.8'
   s.add_development_dependency 'rubocop', '>= 0.24.1'
+  s.add_development_dependency 'ruby_dep', '~> 1.3.0'
 end
