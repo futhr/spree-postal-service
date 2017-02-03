@@ -81,7 +81,7 @@ See corresponding [contributing guidelines][1].
 
 ## License
 
-Copyright (c) 2011-2015 [Torsten Rüger][2], [Tobias Bohwalli][3] and other [contributors][4], released under the [New BSD License][5].
+Copyright (c) 2011-2017 [Torsten Rüger][2], [Tobias Bohwalli][3] and other [contributors][4], released under the [New BSD License][5].
 
 [1]: https://github.com/futhr/spree-postal-service/blob/master/CONTRIBUTING.md
 [2]: https://github.com/dancinglightning
