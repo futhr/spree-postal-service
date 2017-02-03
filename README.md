@@ -26,7 +26,7 @@ _(*) You may install several ShippingMethods for (usually) different countries._
 
 Add to your `Gemfile`:
 ```ruby
-gem 'spree_postal_service', github: 'futhr/spree-postal-service', branch: 'master'
+gem 'spree_postal_service', github: 'futhr/spree-postal-service', branch: '3-1-stable'
 ```
 
 Go to admin interface:
