@@ -10,7 +10,7 @@ module SpreePostalService
     MAJOR = 3
     MINOR = 3
     TINY  = 0
-    PRE   = 'alpha'.freeze
+    PRE   = 'alpha'
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
   end
