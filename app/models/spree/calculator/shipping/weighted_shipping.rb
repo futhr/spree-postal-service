@@ -107,6 +107,8 @@ module Spree
       def compute_package(package)
         quote = quote_package(package)
         quote.amount if quote.available?
+      rescue SolidusWeightedShipping::ConfigurationError, SolidusWeightedShipping::InputError
+        nil
       end
 
       private

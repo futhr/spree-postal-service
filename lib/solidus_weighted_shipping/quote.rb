@@ -102,6 +102,15 @@ module SolidusWeightedShipping
       status == :free_shipping
     end
 
+    def ==(other)
+      other.instance_of?(self.class) && state == other.send(:state)
+    end
+    alias_method :eql?, :==
+
+    def hash
+      [self.class, *state].hash
+    end
+
     private
 
     def normalize_amount(value)
@@ -138,6 +147,18 @@ module SolidusWeightedShipping
       unless amount.zero? && handling_fee.zero? && parcel_count.zero?
         raise InputError, "#{status} quote must have zero amount, handling fee, and parcel count"
       end
+    end
+
+    def state
+      [
+        status,
+        amount,
+        currency,
+        reason,
+        chargeable_weight_in_store_units,
+        parcel_count,
+        handling_fee
+      ]
     end
   end
 end

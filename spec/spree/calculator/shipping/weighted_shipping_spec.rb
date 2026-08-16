@@ -58,6 +58,7 @@ RSpec.describe Spree::Calculator::Shipping::WeightedShipping do
     calculator.preferred_rate_table = "2: 9\n1: 6"
 
     expect(calculator.available?(package)).to be(false)
+    expect(calculator.compute_package(package)).to be_nil
   end
 
   it "surfaces invalid configuration through calculator validation" do

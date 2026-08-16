@@ -29,6 +29,16 @@ RSpec.describe SolidusWeightedShipping::Quote do
 
     expect(empty.status).to eq(:empty)
     expect(empty.amount).to eq(decimal("0"))
+
+    same_rated = described_class.rated(
+      amount: "12.50",
+      currency: "USD",
+      chargeable_weight_in_store_units: "3",
+      parcel_count: 1,
+      handling_fee: "2.50"
+    )
+    expect(same_rated).to eq(rated)
+    expect(same_rated.hash).to eq(rated.hash)
   end
 
   it "rejects unknown or contradictory states" do
