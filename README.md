@@ -20,7 +20,18 @@ It deliberately does **not** implement carrier APIs, labels, tracking, pickup po
 
 ## Compatibility
 
-The modernization targets Solidus 4.7 first and Solidus 4.6 while that line remains security-supported. Ruby 3.2 or newer is required.
+Ruby 3.2 or newer and Solidus 4.6 or 4.7 are required. The release matrix is
+deliberately small and covers the supported boundaries:
+
+| Ruby | Rails | Solidus | Role |
+| --- | --- | --- | --- |
+| 3.2 | 7.0 | 4.6 | oldest supported boundary |
+| 3.4 | 7.2 | 4.6 | current Ruby 3 on the secondary Solidus line |
+| 3.4 | 7.2 | 4.7 | minimum Rails line for the primary Solidus line |
+| 4.0 | 8.1 | 4.7 | primary current stack |
+
+Solidus `main` is exercised separately as an informational compatibility
+signal. Solidus 4.5 and older are not supported.
 
 ## Installation
 
@@ -29,6 +40,13 @@ gem "solidus_weighted_shipping", github: "futhr/solidus-weighted-shipping", bran
 ```
 
 Then bundle and configure a shipping method to use `Spree::Calculator::Shipping::WeightedShipping`.
+
+For an eventual released version, prefer a normal version constraint instead
+of a Git branch:
+
+```ruby
+gem "solidus_weighted_shipping", "~> 4.0"
+```
 
 Existing stores may continue loading `spree_postal_service` and persisted
 `Spree::Calculator::Shipping::PostalService` records during migration. New code
@@ -52,6 +70,11 @@ preferences:
 
 Values are validated before use. Invalid, empty, mismatched, duplicated, decreasing, negative, or non-numeric rate configuration is rejected rather than producing arbitrary checkout behavior.
 
+Weights and dimensions use the host store's configured product units without
+performing hidden conversion. Prices and thresholds are decimal amounts in the
+order currency; they are not integer minor units. Do not mix units within one
+calculator configuration.
+
 Persisted legacy preferences remain readable until they are migrated. Preview
 the deterministic conversion with
 `DRY_RUN=1 bin/rake solidus_weighted_shipping:preferences:migrate`, then run the
@@ -71,11 +94,24 @@ The repository follows current `solidus_dev_support` conventions.
 ```sh
 bundle install
 bin/sandbox
-bundle exec rake
-bundle exec rubocop
+bin/rake
+bundle exec rake quality:coverage
+bundle exec rake quality:lint
+bundle exec rake quality:mutation
 ```
 
-The pure rating policy is framework-light and exhaustively boundary-tested; the Solidus adapter is intentionally thin.
+The pure rating policy is framework-light and exhaustively boundary-tested;
+the Solidus adapter is intentionally thin. Browser specs generate the eight
+release-evidence screenshots under `tmp/screenshots/`.
+
+## Documentation
+
+- [Architecture and non-goals](docs/architecture.md)
+- [Migration from `spree_postal_service`](docs/migration.md)
+- [Testing and supported matrix](docs/testing.md)
+- [Security and reliability](docs/security.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Release and final-audit procedure](docs/release.md)
 
 ## License
 

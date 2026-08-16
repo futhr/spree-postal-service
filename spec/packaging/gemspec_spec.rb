@@ -20,7 +20,12 @@ RSpec.describe "the packaged gem" do
       "app/models/spree/calculator/shipping/weighted_shipping.rb",
       "lib/spree_postal_service.rb",
       "README.md",
-      "docs/migration.md"
+      "docs/architecture.md",
+      "docs/migration.md",
+      "docs/release.md",
+      "docs/security.md",
+      "docs/testing.md",
+      "docs/troubleshooting.md"
     )
     expect(specification.files).not_to include("spree_postal_service.gemspec")
     expect(specification.files.grep(%r{\A(?:spec|sandbox|tmp)/})).to be_empty

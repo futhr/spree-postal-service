@@ -1,0 +1,79 @@
+# Testing
+
+The suite treats tests as the executable contract for the rewrite. A clean
+checkout needs Ruby, Bundler, a browser supported by Selenium, and SQLite; the
+repository supplies the disposable Solidus application.
+
+## One-shot verification
+
+```sh
+bin/setup
+bin/sandbox
+bin/rake
+bundle exec rake quality:coverage
+bundle exec rake quality:lint
+bundle exec rake quality:mutation
+bundle exec bundle-audit check --update
+```
+
+`bin/sandbox` removes and rebuilds `spec/dummy`; it does not create a committed
+sandbox. `bin/rake` runs the complete RSpec suite.
+
+## Test layers
+
+- Pure unit specs cover decimal coercion, structured/legacy table parsing,
+  every band boundary, overflow parcels, constraints, immutable inputs/results,
+  free shipping, handling, empty packages, and invalid states.
+- Rantly properties cover non-negative quotes, orientation invariance,
+  monotonic tables, and conservation across parcel decomposition.
+- Mutant targets the exact pricing, free-shipping, handling, and eligibility
+  decisions. Every generated mutant must be killed.
+- Solidus integration specs use real records and `Spree::Stock::Estimator` to
+  prove registration, preference persistence, package scoping, multiple
+  packages, JPY/KWD decimal behavior, and zero SQL writes while rating.
+- System specs use the real Solidus admin and an isolated test-only customer
+  preview route because Solidus 4.7 does not ship a storefront. That controller
+  lives under `spec/`, is excluded from the gem, and still rates through the
+  real estimator.
+- Packaging specs inspect the built file set, metadata, and runtime dependency
+  graph.
+
+## Coverage gates
+
+With `COVERAGE=true`, SimpleCov requires at least 95% line coverage, 85% branch
+coverage, and 70% per source file. Generated dummy files are excluded. Coverage
+is diagnostic: boundary and mutation evidence remain the correctness gate.
+
+## Supported matrix
+
+CI verifies Ruby 3.2/Rails 7.0/Solidus 4.6, Ruby 3.4/Rails 7.2 on Solidus 4.6
+and 4.7, and Ruby 4.0/Rails 8.1/Solidus 4.7. A Solidus `main` job is
+informational and may fail without blocking a release.
+
+Set `RAILS_VERSION` and `SOLIDUS_BRANCH` before resolving the bundle. The
+Gemfile pins the requested Rails minor so a `7.0` job cannot silently resolve
+to Rails 7.2.
+
+## Browser evidence
+
+The system suite writes these artifacts after semantic assertions pass:
+
+```text
+01-admin-calculator-config.png
+02-checkout-normal-rate.png
+03-checkout-threshold-rate.png
+04-checkout-oversized-unavailable.png
+05-checkout-free-shipping.png
+06-checkout-multi-package.png
+07-admin-completed-order-rate.png
+08-admin-invalid-config.png
+```
+
+CI retains the screenshots for 14 days. They contain generated factory data
+only and must be visually inspected before a release.
+
+## Reproducibility
+
+RSpec prints its random seed. Re-run a failure with `--seed <number>`. Tests do
+not depend on provider uptime, external credentials, wall-clock sleeps, or a
+committed database. Changing Rails/Solidus lines requires a clean dummy rebuild.

@@ -3,6 +3,10 @@
 The repository, gem, namespace, and primary calculator are now aligned around
 Solidus Weighted Shipping. Historical branches and tags remain unchanged.
 
+The repository rename is from `futhr/spree-postal-service` to
+`futhr/solidus-weighted-shipping`. Preserve the old GitHub redirect and never
+create a different repository at the historical path.
+
 ## Dependency and calculator names
 
 Change the dependency and require path:
@@ -64,6 +68,24 @@ tables are reported by calculator ID and are left unchanged. Back up the
 database according to the store's normal deployment procedure before running
 any data migration.
 
+## Deployment sequence
+
+1. Back up the database and record every affected calculator ID.
+2. Deploy `solidus_weighted_shipping` while leaving the compatibility require
+   and STI shim enabled.
+3. Run the dry-run task and correct every reported legacy configuration.
+4. Run the write task once. It is deterministic and skips already-canonical
+   calculators on subsequent runs.
+5. Exercise shipping estimation for eligible, oversized, free-shipping, and
+   multi-package orders in the target store.
+6. Remove the old `spree_postal_service` Gemfile entry and any explicit legacy
+   require after the application loads the new gem successfully.
+
+The write task is intentionally one-way: it replaces legacy keys and changes
+the STI type to `Spree::Calculator::Shipping::WeightedShipping`. A downgrade to
+code that knows only the old class therefore requires restoring the database
+backup taken before step 4. There is no permanent `legacy_mode`.
+
 ## Preserved behavior
 
 - Order merchandise total must be strictly greater than
@@ -88,3 +110,14 @@ any data migration.
   validation instead of producing an arbitrary checkout result.
 - Preview and availability checks return or consume immutable quote values and
   do not mutate orders, packages, variants, or preferences.
+
+## Post-migration verification
+
+For each migrated shipping method, confirm in Solidus admin that:
+
+- the Base Calculator is `Weighted Shipping`;
+- the structured rate table contains the expected number of bands;
+- the maximum item and dimension values use the store's existing units;
+- equality at the free-shipping threshold is still charged;
+- equality at the handling threshold still includes handling;
+- orders split into multiple packages receive one quote per package.
