@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ruby: "3.2"
+            solidus: "v4.6"
+            rails: "7.0"
+          - ruby: "3.4"
+            solidus: "v4.6"
+            rails: "7.2"
+          - ruby: "3.2"
+            solidus: "v4.7"
+            rails: "7.2"
+          - ruby: "3.4"
+            solidus: "v4.7"
+            rails: "8.0"
+          - ruby: "4.0"
+            solidus: "v4.7"
+            rails: "8.1"
+    runs-on: ubuntu-latest
+    env:
+      SOLIDUS_BRANCH: ${{ matrix.solidus }}
+      RAILS_VERSION: ${{ matrix.rails }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run extension specs
+        run: bundle exec rake extension:specs
+
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      SOLIDUS_BRANCH: "v4.7"
+      RAILS_VERSION: "8.1"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+      - run: bundle exec rubocop
