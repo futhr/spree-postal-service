@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-module SpreePostalService
-  VERSION = "3.0.0.pre"
+require "solidus_weighted_shipping/version"
 
-  def self.version
-    VERSION
-  end
-end
+SpreePostalService = SolidusWeightedShipping unless defined?(SpreePostalService)

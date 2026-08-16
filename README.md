@@ -1,4 +1,4 @@
-# Spree Postal Service
+# Solidus Weighted Shipping
 
 Weight- and parcel-rule shipping for modern Solidus.
 
@@ -6,7 +6,7 @@ This repository preserves the history of the original Spree extension while `mai
 
 ## What it does
 
-`spree_postal_service` adds one Solidus shipping calculator with:
+`solidus_weighted_shipping` adds one Solidus shipping calculator with:
 
 - configurable weight bands and prices;
 - maximum per-item weight;
@@ -25,10 +25,14 @@ The modernization targets Solidus 4.7 first and Solidus 4.6 while that line rema
 ## Installation
 
 ```ruby
-gem "spree_postal_service", github: "futhr/spree-postal-service", branch: "main"
+gem "solidus_weighted_shipping", github: "futhr/solidus-weighted-shipping", branch: "main"
 ```
 
-Then bundle and configure a shipping method to use `Spree::Calculator::Shipping::PostalService`.
+Then bundle and configure a shipping method to use `Spree::Calculator::Shipping::WeightedShipping`.
+
+Existing stores may continue loading `spree_postal_service` and persisted
+`Spree::Calculator::Shipping::PostalService` records during migration. New code
+should use the weighted-shipping names.
 
 ## Configuration
 

@@ -4,6 +4,7 @@ pt:
     price_table: Preços (separados por espaços. Use ponto para casas decimais)
     weight_table: Pesos (separados por espaços. Use ponto para casas decimais)
     postal_service: Envio baseado em peso
+    weighted_shipping: Envio baseado em peso
     max_item_weight: Peso máximo por item
     max_item_width: Peso máxima por item
     max_item_length: Comprimento máximo por item

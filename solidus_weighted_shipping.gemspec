@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/spree_postal_service/version"
+require_relative "lib/solidus_weighted_shipping/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "spree_postal_service"
-  spec.version = SpreePostalService::VERSION
+  spec.name = "solidus_weighted_shipping"
+  spec.version = SolidusWeightedShipping::VERSION
   spec.authors = ["Torsten Rüger", "Tobias Bohwalli"]
   spec.email = ["torsten@villataika.fi", "hi@futhr.io"]
 
-  spec.summary = "Weight and parcel-rule shipping calculator for Solidus"
-  spec.description = "A deterministic Solidus shipping calculator with configurable weight bands, parcel constraints, handling fees, and free-shipping thresholds."
-  spec.homepage = "https://github.com/futhr/spree-postal-service"
+  spec.summary = "Weighted and parcel-rule shipping calculator for Solidus"
+  spec.description = "A deterministic Solidus weighted-shipping calculator with configurable rate bands, parcel constraints, handling fees, and free-shipping thresholds."
+  spec.homepage = "https://github.com/futhr/solidus-weighted-shipping"
   spec.license = "BSD-3-Clause"
 
   spec.metadata["homepage_uri"] = spec.homepage

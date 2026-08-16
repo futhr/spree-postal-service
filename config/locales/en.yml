@@ -4,6 +4,7 @@ en:
     price_table: Prices (space seperated)
     weight_table: Weights (space seperated)
     postal_service: Postal Service
+    weighted_shipping: Weighted Shipping
     max_item_weight: Max weight of one item
     max_item_width: Max width of one item
     max_item_length: Max length of one item

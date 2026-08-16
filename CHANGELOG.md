@@ -1,8 +1,9 @@
 # Changelog
 
-## 3.0.0.pre - unreleased
+## 4.0.0.pre - unreleased
 
 - Rebuild the extension for modern Solidus while preserving repository history and historical tags.
+- Align the gem, namespace, and primary calculator with the renamed Solidus Weighted Shipping project.
 - Move rating logic into a small framework-light BigDecimal domain layer.
 - Adopt `Spree::ShippingCalculator#compute_package` and `Spree::Stock::Package#contents`.
 - Preserve historical preference names and documented pricing boundaries.
