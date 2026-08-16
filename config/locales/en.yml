@@ -1,6 +1,13 @@
 ---
 en:
   spree:
+    rate_table: "Rate table (maximum weight: price, one band per line)"
+    maximum_item_weight: Maximum weight of one item
+    maximum_item_width: Maximum second-longest side of one item
+    maximum_item_length: Maximum longest side of one item
+    free_shipping_threshold: Order merchandise total above which shipping is free
+    handling_threshold: Package merchandise total at or below which handling applies
+    default_item_weight: Default weight for an item without a positive weight
     price_table: Prices (space seperated)
     weight_table: Weights (space seperated)
     postal_service: Postal Service

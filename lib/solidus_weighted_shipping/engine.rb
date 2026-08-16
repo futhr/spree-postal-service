@@ -14,5 +14,9 @@ module SolidusWeightedShipping
     initializer "solidus_weighted_shipping.register_calculator", after: "spree.register.calculators" do |app|
       app.config.spree.calculators.shipping_methods << "Spree::Calculator::Shipping::WeightedShipping"
     end
+
+    rake_tasks do
+      load root.join("lib/tasks/solidus_weighted_shipping.rake")
+    end
   end
 end

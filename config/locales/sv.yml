@@ -1,6 +1,13 @@
 ---
 sv:
   spree:
+    rate_table: "Frakttabell (maxvikt: pris, ett intervall per rad)"
+    maximum_item_weight: Maxvikt för en artikel
+    maximum_item_width: Maximal näst längsta sida för en artikel
+    maximum_item_length: Maximal längsta sida för en artikel
+    free_shipping_threshold: Ordervärde över vilket frakten är gratis
+    handling_threshold: Paketvärde vid eller under vilket hanteringsavgift tillämpas
+    default_item_weight: Förvald vikt för en artikel utan positiv vikt
     price_table: Priser (mellanrums separerade)
     weight_table: Vikter (mellanrums separerade)
     postal_service: Post Service

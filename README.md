@@ -36,25 +36,31 @@ should use the weighted-shipping names.
 
 ## Configuration
 
-The historical preference names are intentionally retained:
+New calculators expose one structured rate table and explicitly named policy
+preferences:
 
 | Preference | Default | Meaning |
 | --- | ---: | --- |
-| `weight_table` | `1 2 5 10 20` | Strictly increasing weight thresholds |
-| `price_table` | `6 9 12 15 18` | Price for each corresponding band |
-| `max_item_weight` | `18` | Maximum weight of any single item |
-| `max_item_width` | `60` | Maximum second-longest dimension |
-| `max_item_length` | `120` | Maximum longest dimension |
-| `max_price` | `120` | Free shipping when order merchandise total is strictly greater |
-| `handling_max` | `50` | Handling fee applies at or below this package merchandise total |
+| `rate_table` | `1: 6` … `20: 18` | One `maximum weight: price` band per line |
+| `maximum_item_weight` | `18` | Maximum weight of any single item |
+| `maximum_item_width` | `60` | Maximum second-longest dimension |
+| `maximum_item_length` | `120` | Maximum longest dimension |
+| `free_shipping_threshold` | `120` | Free shipping when order merchandise total is strictly greater |
+| `handling_threshold` | `50` | Handling fee applies at or below this package merchandise total |
 | `handling_fee` | `10` | Handling fee |
-| `default_weight` | `1` | Weight used for missing/zero/negative item weight |
+| `default_item_weight` | `1` | Weight used for missing/zero/negative item weight |
 
 Values are validated before use. Invalid, empty, mismatched, duplicated, decreasing, negative, or non-numeric rate configuration is rejected rather than producing arbitrary checkout behavior.
 
+Persisted legacy preferences remain readable until they are migrated. Preview
+the deterministic conversion with
+`DRY_RUN=1 bin/rake solidus_weighted_shipping:preferences:migrate`, then run the
+same task without `DRY_RUN` to persist the canonical table, preference names,
+and calculator type.
+
 ## Compatibility notes from the legacy implementation
 
-The rewrite intentionally preserves the historical strict free-shipping boundary (`total > max_price`) and repeated maximum-band pricing. Weight and dimension rating now uses the **actual Solidus package contents**, fixing the old whole-order/package ambiguity.
+The rewrite intentionally preserves the historical strict free-shipping boundary (`total > free_shipping_threshold`) and repeated maximum-band pricing. Weight and dimension rating now uses the **actual Solidus package contents**, fixing the old whole-order/package ambiguity.
 
 See [`docs/migration.md`](docs/migration.md) for the behavioral mapping.
 

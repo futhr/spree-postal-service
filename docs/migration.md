@@ -1,33 +1,90 @@
-# Migration from the legacy Spree extension
+# Migrating to Solidus Weighted Shipping
 
-The `main` branch is a rewrite built on the original repository history. Existing tags and the historical `master` branch remain unchanged.
+The repository, gem, namespace, and primary calculator are now aligned around
+Solidus Weighted Shipping. Historical branches and tags remain unchanged.
 
-## Preserved preferences
+## Dependency and calculator names
 
-All historical calculator preference names are retained so existing configuration can be mapped directly:
+Change the dependency and require path:
 
-`weight_table`, `price_table`, `max_item_weight`, `max_item_width`, `max_item_length`, `max_price`, `handling_max`, `handling_fee`, and `default_weight`.
+```ruby
+gem "solidus_weighted_shipping", github: "futhr/solidus-weighted-shipping", branch: "main"
+```
 
-Whitespace-separated weight and price tables remain accepted at the public preference boundary, but are parsed once into validated `BigDecimal` values internally.
+New shipping methods use
+`Spree::Calculator::Shipping::WeightedShipping`. During migration, the root
+`spree_postal_service` require aliases the old Ruby namespace and
+`Spree::Calculator::Shipping::PostalService` remains loadable for persisted STI
+records. Neither legacy name is registered for new shipping methods.
 
-## Intentional behavior
+## Preference mapping
 
-Preserved:
+The canonical rate table replaces two position-dependent whitespace strings
+with one band per line:
 
-- `total > max_price` means free shipping; equality is not free;
-- handling fee applies when merchandise value is less than or equal to `handling_max`;
-- missing/non-positive weight uses `default_weight`;
-- longest dimension is checked against `max_item_length`;
-- second-longest dimension is checked against `max_item_width`;
-- totals above the final weight band are charged as repeated maximum-band parcels plus the remaining band.
+```text
+1: 6
+2: 9
+5: 12
+10: 15
+20: 18
+```
 
-Changed:
+The migration maps preferences as follows:
 
-- item weight/dimension rating is package-scoped using `Spree::Stock::Package#contents`, matching current Solidus shipping estimation;
-- monetary and physical threshold arithmetic uses exact decimal values instead of Float;
-- invalid rate tables fail validation instead of being interpreted implicitly;
-- the misleading legacy helper name `item_within_bounds?` is gone.
+| Historical | Canonical |
+| --- | --- |
+| `weight_table` + `price_table` | `rate_table` |
+| `max_item_weight` | `maximum_item_weight` |
+| `max_item_width` | `maximum_item_width` |
+| `max_item_length` | `maximum_item_length` |
+| `max_price` | `free_shipping_threshold` |
+| `handling_max` | `handling_threshold` |
+| `handling_fee` | `handling_fee` |
+| `default_weight` | `default_item_weight` |
 
-## Release note
+Historical keys are read directly until conversion, so deployment does not
+require a synchronized maintenance window. A canonical admin edit clears its
+corresponding historical key immediately.
 
-The working version is `3.0.0.pre` until final naming, compatibility, RubyGems ownership, and release audit are complete. Do not publish from `main` before that audit.
+Preview every affected calculator without writing:
+
+```sh
+DRY_RUN=1 bin/rake solidus_weighted_shipping:preferences:migrate
+```
+
+Then persist the canonical preferences and calculator STI type:
+
+```sh
+bin/rake solidus_weighted_shipping:preferences:migrate
+```
+
+The task validates the complete converted policy before saving. Invalid legacy
+tables are reported by calculator ID and are left unchanged. Back up the
+database according to the store's normal deployment procedure before running
+any data migration.
+
+## Preserved behavior
+
+- Order merchandise total must be strictly greater than
+  `free_shipping_threshold`; equality is not free.
+- Handling applies per quoted package when package merchandise total is less
+  than or equal to `handling_threshold`.
+- Missing, zero, or negative historical item weight uses
+  `default_item_weight`.
+- The longest dimension is checked against `maximum_item_length`; the
+  second-longest is checked against `maximum_item_width`, independent of item
+  orientation.
+- Totals above the final weight band are charged as repeated maximum-band
+  parcels plus the remaining band.
+
+## Intentional corrections
+
+- Item weight, dimensions, and handling totals are package-scoped through
+  `Spree::Stock::Package#contents`; free shipping alone remains order-scoped.
+- Monetary and physical comparisons use exact decimal values rather than
+  binary floats.
+- Invalid configuration disables the calculator and appears on model
+  validation instead of producing an arbitrary checkout result.
+- Preview and availability checks return or consume immutable quote values and
+  do not mutate orders, packages, variants, or preferences.

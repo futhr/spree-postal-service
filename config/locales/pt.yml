@@ -1,6 +1,13 @@
 ---
 pt:
   spree:
+    rate_table: "Tabela de tarifas (peso máximo: preço, uma faixa por linha)"
+    maximum_item_weight: Peso máximo por item
+    maximum_item_width: Segundo maior lado máximo por item
+    maximum_item_length: Maior lado máximo por item
+    free_shipping_threshold: Total de mercadorias da encomenda acima do qual o envio é gratuito
+    handling_threshold: Total de mercadorias do pacote até ao qual se aplica a taxa de manuseio
+    default_item_weight: Peso padrão para um item sem peso positivo
     price_table: Preços (separados por espaços. Use ponto para casas decimais)
     weight_table: Pesos (separados por espaços. Use ponto para casas decimais)
     postal_service: Envio baseado em peso
