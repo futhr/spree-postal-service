@@ -1,0 +1,6 @@
+ignore:
+  # Development-only Puma is constrained below 7 by solidus_dev_support 2.12.
+  # The affected PROXY protocol is not enabled by the local/CI Capybara server.
+  # Remove both exceptions when solidus_dev_support permits Puma >= 7.2.1.
+  - CVE-2026-47736
+  - CVE-2026-47737

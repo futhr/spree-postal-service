@@ -5,11 +5,16 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   test:
+    name: Ruby ${{ matrix.ruby }} / Solidus ${{ matrix.solidus }} / Rails ${{ matrix.rails }}
     strategy:
       fail-fast: false
       matrix:
@@ -20,12 +25,9 @@ jobs:
           - ruby: "3.4"
             solidus: "v4.6"
             rails: "7.2"
-          - ruby: "3.2"
-            solidus: "v4.7"
-            rails: "7.2"
           - ruby: "3.4"
             solidus: "v4.7"
-            rails: "8.0"
+            rails: "7.2"
           - ruby: "4.0"
             solidus: "v4.7"
             rails: "8.1"
@@ -34,23 +36,116 @@ jobs:
       SOLIDUS_BRANCH: ${{ matrix.solidus }}
       RAILS_VERSION: ${{ matrix.rails }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Run extension specs
-        run: bundle exec rake extension:specs
+          cache-version: ${{ matrix.solidus }}-rails-${{ matrix.rails }}
+      - run: bin/rake extension:specs
 
-  lint:
+  quality:
     runs-on: ubuntu-latest
     env:
       SOLIDUS_BRANCH: "v4.7"
       RAILS_VERSION: "8.1"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "4.0"
           bundler-cache: true
-      - run: bundle exec rubocop
+          cache-version: quality-v4.7-rails-8.1
+      - run: bundle exec rake quality:coverage
+      - run: bundle exec rake quality:lint
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: error
+          retention-days: 14
+
+  mutation:
+    runs-on: ubuntu-latest
+    env:
+      SOLIDUS_BRANCH: "v4.7"
+      RAILS_VERSION: "7.2"
+      MUTANT_JOBS: "2"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+          cache-version: mutation-v4.7-rails-7.2
+      - run: bundle exec rake quality:mutation
+
+  browser:
+    runs-on: ubuntu-latest
+    env:
+      SOLIDUS_BRANCH: "v4.7"
+      RAILS_VERSION: "8.1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+          cache-version: browser-v4.7-rails-8.1
+      - run: bin/rake extension:test_app
+      - run: bundle exec rspec spec/system
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: weighted-shipping-browser-evidence
+          path: tmp/screenshots/
+          if-no-files-found: error
+          retention-days: 14
+
+  package:
+    runs-on: ubuntu-latest
+    env:
+      SOLIDUS_BRANCH: "v4.7"
+      RAILS_VERSION: "8.1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+          cache-version: package-v4.7-rails-8.1
+      - run: mkdir -p pkg
+      - run: gem build solidus_weighted_shipping.gemspec --output pkg/solidus_weighted_shipping.gem
+      - name: Inspect package metadata
+        run: >-
+          ruby -rrubygems/package
+          -e 'spec = Gem::Package.new(ARGV.fetch(0)).spec; puts({name: spec.name, version: spec.version.to_s, ruby: spec.required_ruby_version.to_s})'
+          pkg/solidus_weighted_shipping.gem
+      - name: Install and load the packaged domain
+        run: |
+          package_home="$(mktemp -d)"
+          gem install --local pkg/solidus_weighted_shipping.gem --install-dir "$package_home" --ignore-dependencies --no-document
+          package_lib="$(find "$package_home/gems" -path '*/solidus_weighted_shipping-*/lib' -type d -print -quit)"
+          ruby -I"$package_lib" -e 'require "solidus_weighted_shipping/domain"; abort unless SolidusWeightedShipping::RateTable.parse("1: 2").price_for("1") == 2'
+      - uses: actions/upload-artifact@v7
+        with:
+          name: solidus-weighted-shipping-gem
+          path: pkg/solidus_weighted_shipping.gem
+          if-no-files-found: error
+          retention-days: 14
+
+  solidus-edge:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    env:
+      SOLIDUS_BRANCH: main
+      RAILS_VERSION: "8.1"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+          cache-version: solidus-main-rails-8.1
+      - run: bin/rake extension:specs

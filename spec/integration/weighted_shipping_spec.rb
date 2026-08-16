@@ -16,13 +16,14 @@ RSpec.describe "Solidus weighted shipping integration" do
 
   def package_for(order:, line_items:, stock_location: nil)
     contents = line_items.map do |line_item|
-      inventory_unit = Spree::InventoryUnit.new(variant: line_item.variant, line_item:)
+      inventory_unit = Spree::InventoryUnit.new(
+        variant_id: line_item.variant_id,
+        line_item_id: line_item.id
+      )
       Spree::Stock::ContentItem.new(inventory_unit)
     end
 
-    Spree::Stock::Package.new(stock_location || create(:stock_location), contents).tap do |package|
-      package.shipment = Spree::Shipment.new(order:, stock_location: package.stock_location)
-    end
+    Spree::Stock::Package.new(stock_location || create(:stock_location), contents)
   end
 
   def recalculate(order)
@@ -48,6 +49,8 @@ RSpec.describe "Solidus weighted shipping integration" do
 
     expensive.update_column(:price, decimal("80.01"))
     recalculate(order)
+    first_package = package_for(order:, line_items: [inexpensive])
+    second_package = package_for(order:, line_items: [expensive])
 
     expect(order.item_total).to eq(decimal("120.01"))
     expect(calculator.quote_package(first_package)).to be_free_shipping

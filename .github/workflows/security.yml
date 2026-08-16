@@ -17,10 +17,17 @@ jobs:
       SOLIDUS_BRANCH: "v4.7"
       RAILS_VERSION: "8.1"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "4.0"
           bundler-cache: true
-      - run: gem install bundler-audit
-      - run: bundle audit check --update
+          cache-version: security-v4.7-rails-8.1
+      - run: bundle exec bundle-audit check --update
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/dependency-review-action@v5
