@@ -3,6 +3,10 @@
 The repository, gem, namespace, and primary calculator are now aligned around
 Solidus Weighted Shipping. Historical branches and tags remain unchanged.
 
+This guide is for stores upgrading from `spree_postal_service`. New
+installations can start with the canonical dependency and calculator names and
+do not need to run the preference migration.
+
 The repository rename is from `futhr/spree-postal-service` to
 `futhr/solidus-weighted-shipping`. Preserve the old GitHub redirect and never
 create a different repository at the historical path.

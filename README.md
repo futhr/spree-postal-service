@@ -2,7 +2,13 @@
 
 Weight- and parcel-rule shipping for modern Solidus.
 
-This repository preserves the history of the original Spree extension while `main` carries the current Solidus rewrite. The historical `master` branch and all existing tags remain untouched.
+This repository preserves the history of the original Spree extension while
+`main` carries the current Solidus rewrite. The historical `master` branch and
+all existing tags remain untouched.
+
+The rewrite is currently versioned `4.0.0.pre`. It is being prepared for its
+first RubyGems release as `solidus_weighted_shipping`; until that release is
+published, install it from the renamed GitHub repository.
 
 ## What it does
 
@@ -16,7 +22,9 @@ This repository preserves the history of the original Spree extension while `mai
 - a handling fee below or at a configurable merchandise threshold;
 - free shipping above a configurable order merchandise threshold.
 
-It deliberately does **not** implement carrier APIs, labels, tracking, pickup points, fulfillment orchestration, or a generic shipping framework. Those responsibilities belong to Solidus or dedicated provider integrations.
+It deliberately does not implement carrier APIs, labels, tracking, pickup
+points, fulfillment orchestration, or a generic shipping framework. Those
+responsibilities belong to Solidus or dedicated provider integrations.
 
 ## Compatibility
 
@@ -33,7 +41,7 @@ deliberately small and covers the supported boundaries:
 Solidus `main` is exercised separately as an informational compatibility
 signal. Solidus 4.5 and older are not supported.
 
-## Installation
+## Installation before the first RubyGems release
 
 ```ruby
 gem "solidus_weighted_shipping", github: "futhr/solidus-weighted-shipping", branch: "main"
@@ -41,8 +49,8 @@ gem "solidus_weighted_shipping", github: "futhr/solidus-weighted-shipping", bran
 
 Then bundle and configure a shipping method to use `Spree::Calculator::Shipping::WeightedShipping`.
 
-For an eventual released version, prefer a normal version constraint instead
-of a Git branch:
+After `4.0.0` is published, replace the Git dependency with the normal RubyGems
+constraint:
 
 ```ruby
 gem "solidus_weighted_shipping", "~> 4.0"
@@ -51,6 +59,18 @@ gem "solidus_weighted_shipping", "~> 4.0"
 Existing stores may continue loading `spree_postal_service` and persisted
 `Spree::Calculator::Shipping::PostalService` records during migration. New code
 should use the weighted-shipping names.
+
+## How a quote is calculated
+
+The calculator first checks every item against the configured weight and
+dimension limits. An ineligible package is unavailable to Solidus rather than
+being assigned a guessed price.
+
+For an eligible package, missing or non-positive item weights use the configured
+fallback. The total chargeable weight selects the first matching rate band. A
+total above the final band is split into repeated final-band parcels plus one
+remainder parcel. Free shipping uses the whole order merchandise total, while
+handling is evaluated for each package quoted by Solidus.
 
 ## Configuration
 
@@ -68,7 +88,9 @@ preferences:
 | `handling_fee` | `10` | Handling fee |
 | `default_item_weight` | `1` | Weight used for missing/zero/negative item weight |
 
-Values are validated before use. Invalid, empty, mismatched, duplicated, decreasing, negative, or non-numeric rate configuration is rejected rather than producing arbitrary checkout behavior.
+Values are validated before use. Invalid, empty, duplicated, decreasing,
+negative, or non-numeric rate configuration is rejected rather than producing
+arbitrary checkout behavior.
 
 Weights and dimensions use the host store's configured product units without
 performing hidden conversion. Prices and thresholds are decimal amounts in the
@@ -81,9 +103,12 @@ the deterministic conversion with
 same task without `DRY_RUN` to persist the canonical table, preference names,
 and calculator type.
 
-## Compatibility notes from the legacy implementation
+## Behavior carried forward from the legacy extension
 
-The rewrite intentionally preserves the historical strict free-shipping boundary (`total > free_shipping_threshold`) and repeated maximum-band pricing. Weight and dimension rating now uses the **actual Solidus package contents**, fixing the old whole-order/package ambiguity.
+The rewrite preserves the strict free-shipping boundary
+(`total > free_shipping_threshold`) and repeated maximum-band pricing. Weight,
+dimensions, and handling now use the actual Solidus package contents, fixing
+the old whole-order/package ambiguity.
 
 See [`docs/migration.md`](docs/migration.md) for the behavioral mapping.
 

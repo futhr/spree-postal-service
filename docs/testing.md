@@ -31,10 +31,11 @@ sandbox. `bin/rake` runs the complete RSpec suite.
 - Solidus integration specs use real records and `Spree::Stock::Estimator` to
   prove registration, preference persistence, package scoping, multiple
   packages, JPY/KWD decimal behavior, and zero SQL writes while rating.
-- System specs use the real Solidus admin and an isolated test-only customer
-  preview route because Solidus 4.7 does not ship a storefront. That controller
-  lives under `spec/`, is excluded from the gem, and still rates through the
-  real estimator.
+- System specs use the real Solidus admin and an isolated, test-only customer
+  preview. The disposable app is generated with `FRONTEND=none`, so the preview
+  provides a stable customer-facing view without pretending to be a packaged
+  storefront. Its controller lives under `spec/`, is excluded from the gem,
+  and still rates through the real estimator.
 - Packaging specs inspect the built file set, metadata, and runtime dependency
   graph.
 
@@ -53,6 +54,11 @@ informational and may fail without blocking a release.
 Set `RAILS_VERSION` and `SOLIDUS_BRANCH` before resolving the bundle. The
 Gemfile pins the requested Rails minor so a `7.0` job cannot silently resolve
 to Rails 7.2.
+
+When reproducing a row locally, apply both variables to dependency resolution,
+the dummy-app rebuild, and the spec command. The
+[contributing guide](../CONTRIBUTING.md#reproduce-a-compatibility-row) includes
+a complete example.
 
 ## Browser evidence
 
