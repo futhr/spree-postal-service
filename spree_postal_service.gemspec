@@ -1,44 +1,30 @@
-# coding: utf-8
-lib = File.expand_path('../lib/', __FILE__)
-$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib)
+# frozen_string_literal: true
 
-require 'spree_postal_service/version'
+require_relative "lib/spree_postal_service/version"
 
-Gem::Specification.new do |s|
-  s.platform     = Gem::Platform::RUBY
-  s.name         = 'spree_postal_service'
-  s.version      = SpreePostalService.version
-  s.summary      = 'Calculate weight based charges for a Spree order'
-  s.description  = s.summary
+Gem::Specification.new do |spec|
+  spec.name = "spree_postal_service"
+  spec.version = SpreePostalService::VERSION
+  spec.authors = ["Torsten Rüger", "Tobias Bohwalli"]
+  spec.email = ["torsten@villataika.fi", "hi@futhr.io"]
 
-  s.required_ruby_version     = '>= 2.2.2'
-  s.required_rubygems_version = '>= 1.8.23'
+  spec.summary = "Weight and parcel-rule shipping calculator for Solidus"
+  spec.description = "A deterministic Solidus shipping calculator with configurable weight bands, parcel constraints, handling fees, and free-shipping thresholds."
+  spec.homepage = "https://github.com/futhr/spree-postal-service"
+  spec.license = "BSD-3-Clause"
 
-  s.authors      = ['Torsten Rüger', 'Tobias Bohwalli']
-  s.email        = ['torsten@villataika.fi', 'hi@futhr.io']
-  s.homepage     = 'https://github.com/futhr/spree-postal-service'
-  s.license      = 'BSD-3'
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 
-  s.files        = `git ls-files`.split("\n")
-  s.test_files   = `git ls-files -- spec/*`.split("\n")
-  s.require_path = 'lib'
-  s.requirements << 'none'
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.2")
 
-  s.has_rdoc = false
+  files = Dir.chdir(__dir__) { `git ls-files -z`.split("\x0") }
+  spec.files = files.grep_v(%r{^(spec|sandbox)/})
+  spec.require_paths = ["lib"]
 
-  s.add_runtime_dependency 'spree_core', '>= 3.1.0', '< 4.0'
+  spec.add_dependency "solidus_core", ">= 4.6", "< 5"
+  spec.add_dependency "solidus_support", ">= 0.12"
 
-  s.add_development_dependency 'rspec-rails', '>= 3.2.0'
-  s.add_development_dependency 'factory_girl', '>= 4.4'
-  s.add_development_dependency 'sqlite3', '>= 1.3.10'
-  s.add_development_dependency 'simplecov', '>= 0.9.0'
-  s.add_development_dependency 'coveralls', '>= 0.8.1'
-  s.add_development_dependency 'i18n-spec', '>= 0.6.0'
-  s.add_development_dependency 'ffaker', '>= 1.32.1'
-  s.add_development_dependency 'coffee-rails', '>= 4.0.0'
-  s.add_development_dependency 'sass-rails', '>= 5.0.0'
-  s.add_development_dependency 'pry-rails', '>= 0.3.2'
-  s.add_development_dependency 'database_cleaner', '>= 1.4.1'
-  s.add_development_dependency 'guard-rspec', '>= 4.2.8'
-  s.add_development_dependency 'rubocop', '>= 0.24.1'
+  spec.add_development_dependency "solidus_dev_support"
 end
