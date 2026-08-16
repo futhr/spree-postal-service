@@ -124,6 +124,13 @@ RSpec.describe SolidusWeightedShipping::RateTable do
         .to raise_error(SolidusWeightedShipping::InputError, /greater than zero/)
       expect { table.price_for("21") }
         .to raise_error(SolidusWeightedShipping::InputError, /exceeds/)
+      expect { table.price_for(1.0) }
+        .to raise_error(
+          SolidusWeightedShipping::InputError,
+          "parcel weight must use an exact decimal value"
+        )
+      expect { table.price_for("not-a-number") }
+        .to raise_error(SolidusWeightedShipping::InputError, "parcel weight must be numeric")
     end
 
     it "conserves chargeable weight across parcel decomposition" do

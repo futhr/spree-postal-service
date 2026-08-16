@@ -26,6 +26,7 @@ RSpec.describe SolidusWeightedShipping::Constraints do
     expectations.each do |item, reason|
       eligibility = constraints.eligibility_for(item)
       expect(eligibility).not_to be_eligible
+      expect(eligibility.status).to eq(:ineligible)
       expect(eligibility.reason).to eq(reason)
     end
   end
@@ -85,5 +86,17 @@ RSpec.describe SolidusWeightedShipping::Constraints do
       .to raise_error(SolidusWeightedShipping::InputError, /PackageInput::Item/)
     expect { constraints.package_eligibility(Object.new) }
       .to raise_error(SolidusWeightedShipping::InputError, /PackageInput/)
+  end
+
+  it "accepts specialized item values" do
+    specialized_item_class = Class.new(SolidusWeightedShipping::PackageInput::Item)
+    item = specialized_item_class.new(
+      quantity: 1,
+      unit_price_in_currency_units: "10",
+      weight_in_store_units: "1",
+      dimensions_in_store_units: %w[1 1 1]
+    )
+
+    expect(constraints.eligibility_for(item)).to be_eligible
   end
 end

@@ -1,0 +1,10 @@
+ruby_version: 3.2
+
+ignore:
+  - "spec/dummy/**/*"
+  - "app/**/*.rb":
+      - Performance/BigDecimalWithNumericArgument
+  - "lib/**/*.rb":
+      - Performance/BigDecimalWithNumericArgument
+  - "spec/**/*.rb":
+      - Performance/BigDecimalWithNumericArgument

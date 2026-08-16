@@ -77,6 +77,17 @@ RSpec.describe SolidusWeightedShipping::Calculator do
     end.to raise_error(SolidusWeightedShipping::ConfigurationError, /RateTable/)
   end
 
+  it "accepts specialized package input values" do
+    specialized_package_class = Class.new(SolidusWeightedShipping::PackageInput)
+    package = specialized_package_class.new(
+      items: [weighted_item],
+      order_merchandise_total: "100",
+      currency: "USD"
+    )
+
+    expect(calculator.quote(package)).to be_available
+  end
+
   it "rejects negative or inexact threshold configuration" do
     expect { weighted_calculator(handling_fee: "-1") }
       .to raise_error(SolidusWeightedShipping::ConfigurationError, /must not be negative/)
