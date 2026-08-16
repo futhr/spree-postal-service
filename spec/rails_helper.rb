@@ -14,6 +14,12 @@ require "solidus_dev_support/rspec/feature_helper"
 
 Dir[File.expand_path("support/**/*.rb", __dir__)].sort.each { |file| require file }
 
+Rails.application.routes.append do
+  get "/weighted-shipping-preview/:order_id",
+    to: "solidus_weighted_shipping/test_preview#show"
+end
+Rails.application.reload_routes!
+
 SolidusDevSupport::TestingSupport::Factories.load_for(SolidusWeightedShipping::Engine)
 
 RSpec.configure do |config|

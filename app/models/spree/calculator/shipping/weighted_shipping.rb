@@ -33,9 +33,10 @@ module Spree
       alias_method :write_preferred_default_item_weight, :preferred_default_item_weight=
 
       validate :weighted_shipping_configuration
+      before_validation :normalize_canonical_rate_table
 
       def self.description
-        Spree.t(:weighted_shipping)
+        I18n.t("spree.weighted_shipping", default: "Weighted Shipping")
       end
 
       def admin_form_preference_names
@@ -171,6 +172,15 @@ module Spree
         policy
       rescue SolidusWeightedShipping::ConfigurationError => error
         errors.add(:base, error.message)
+      end
+
+      def normalize_canonical_rate_table
+        return if legacy_rate_table?
+
+        normalized = SolidusWeightedShipping::RateTable.parse(preferred_rate_table).dump
+        write_preferred_rate_table(normalized) unless normalized == preferred_rate_table
+      rescue SolidusWeightedShipping::ConfigurationError
+        nil
       end
 
       def policy_values

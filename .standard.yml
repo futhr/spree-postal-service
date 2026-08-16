@@ -8,3 +8,5 @@ ignore:
       - Performance/BigDecimalWithNumericArgument
   - "spec/**/*.rb":
       - Performance/BigDecimalWithNumericArgument
+  - "spec/system/**/*.rb":
+      - Lint/Debugger

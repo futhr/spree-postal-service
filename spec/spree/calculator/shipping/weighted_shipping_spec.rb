@@ -68,6 +68,13 @@ RSpec.describe Spree::Calculator::Shipping::WeightedShipping do
     expect(calculator.errors[:base]).not_to be_empty
   end
 
+  it "canonicalizes a valid rate table during validation" do
+    calculator.preferred_rate_table = " 1 : 6\r\n\r\n2:9 "
+
+    expect(calculator).to be_valid
+    expect(calculator.preferred_rate_table).to eq("1: 6\n2: 9")
+  end
+
   it "exposes only canonical weighted-shipping preferences to the admin" do
     expect(calculator.admin_form_preference_names).to eq(
       %i[
