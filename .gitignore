@@ -1,6 +1,9 @@
 .bundle/
+Gemfile.lock
 coverage/
 pkg/
 sandbox/
+spec/dummy/
+spec/examples.txt
 tmp/
 .DS_Store

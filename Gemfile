@@ -8,7 +8,7 @@ gem "solidus", github: "solidusio/solidus", branch: solidus_branch
 
 rails_version = ENV.fetch("RAILS_VERSION", "7.2")
 gem "rails", "~> #{rails_version}"
-gem "sqlite3", rails_version < "7.2" ? "~> 1.4" : "~> 2.0"
+gem "sqlite3", (rails_version < "7.2") ? "~> 1.4" : "~> 2.0"
 
 gem "csv" if RUBY_VERSION >= "3.4"
 

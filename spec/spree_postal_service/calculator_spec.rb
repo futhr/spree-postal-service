@@ -37,7 +37,7 @@ RSpec.describe SpreePostalService::Calculator do
   end
 
   it "uses the configured fallback weight when weight is missing" do
-    expect(calculator.quote(package(weight: nil, unit_price: 100, quantity: 3))).to eq(BigDecimal("12"))
+    expect(calculator.quote(package(weight: nil, unit_price: 100, quantity: 3, order_total: 100))).to eq(BigDecimal("12"))
   end
 
   it "keeps the historical strict free-shipping boundary" do
