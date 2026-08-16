@@ -1,8 +1,2 @@
----
-inherit_from: .hound.yml
-
-AllCops:
-  Exclude:
-    - spec/dummy/**/*
-    - bin/*
-    - Guardfile
+inherit_gem:
+  solidus_dev_support: lib/solidus_dev_support/rubocop/config.yml
