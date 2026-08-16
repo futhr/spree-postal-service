@@ -1,90 +1,72 @@
 # Spree Postal Service
 
-[![Build Status](https://travis-ci.org/futhr/spree-postal-service.svg?branch=master)](https://travis-ci.org/futhr/spree-postal-service)
-[![Coverage Status](https://img.shields.io/coveralls/futhr/spree-postal-service.svg)](https://coveralls.io/r/futhr/spree-postal-service?branch=master)
-[![Code Climate](https://codeclimate.com/github/futhr/spree-postal-service/badges/gpa.svg)](https://codeclimate.com/github/futhr/spree-postal-service)
-[![Gem Version](https://badge.fury.io/rb/spree_postal_service.svg)](http://badge.fury.io/rb/spree_postal_service)
+Weight- and parcel-rule shipping for modern Solidus.
 
-A postal service is delivers based on weight only(*). Like most post services in Europe will.
+This repository preserves the history of the original Spree extension while `main` carries the current Solidus rewrite. The historical `master` branch and all existing tags remain untouched.
 
-This Spree extension adds a spree-calculator to model this.
+## What it does
 
-**Other features:**
+`spree_postal_service` adds one Solidus shipping calculator with:
 
-- Size and weight restrictions can be specified.
-- You specify a weight/price table.
-- Handling fee may be added ( with a maximum when it won't be applied anymore).
-- Multi-parcel shipments are automatically created.
-- You can specify a maximum order price, orders over this will not be charged.
+- configurable weight bands and prices;
+- maximum per-item weight;
+- longest-side and second-longest-side limits independent of orientation;
+- fallback weight for products without a positive weight;
+- repeated maximum-band charging for multi-parcel totals;
+- a handling fee below or at a configurable merchandise threshold;
+- free shipping above a configurable order merchandise threshold.
 
-Off course this relies on your weight data to be correct (and if you want the restrictions to work, the size data too).
-Use the same measurements as in the product info page.
+It deliberately does **not** implement carrier APIs, labels, tracking, pickup points, fulfillment orchestration, or a generic shipping framework. Those responsibilities belong to Solidus or dedicated provider integrations.
 
-_(*) You may install several ShippingMethods for (usually) different countries._
+## Compatibility
 
-## Usage
+The modernization targets Solidus 4.7 first and Solidus 4.6 while that line remains security-supported. Ruby 3.2 or newer is required.
 
-Add to your `Gemfile`:
+## Installation
+
 ```ruby
-gem 'spree_postal_service', github: 'futhr/spree-postal-service', branch: 'master'
+gem "spree_postal_service", github: "futhr/spree-postal-service", branch: "main"
 ```
 
-Go to admin interface:
+Then bundle and configure a shipping method to use `Spree::Calculator::Shipping::PostalService`.
 
-`http://localhost:3000/admin/shipping_methods/new`
+## Configuration
 
-and use _Postal Service_ as calculator.
+The historical preference names are intentionally retained:
 
-The size/weight _table_ must have the same amount of (space separated) entries.
+| Preference | Default | Meaning |
+| --- | ---: | --- |
+| `weight_table` | `1 2 5 10 20` | Strictly increasing weight thresholds |
+| `price_table` | `6 9 12 15 18` | Price for each corresponding band |
+| `max_item_weight` | `18` | Maximum weight of any single item |
+| `max_item_width` | `60` | Maximum second-longest dimension |
+| `max_item_length` | `120` | Maximum longest dimension |
+| `max_price` | `120` | Free shipping when order merchandise total is strictly greater |
+| `handling_max` | `50` | Handling fee applies at or below this package merchandise total |
+| `handling_fee` | `10` | Handling fee |
+| `default_weight` | `1` | Weight used for missing/zero/negative item weight |
 
----
+Values are validated before use. Invalid, empty, mismatched, duplicated, decreasing, negative, or non-numeric rate configuration is rejected rather than producing arbitrary checkout behavior.
 
-## Example
+## Compatibility notes from the legacy implementation
 
-With the default settings (measurements in kg and cm):
+The rewrite intentionally preserves the historical strict free-shipping boundary (`total > max_price`) and repeated maximum-band pricing. Weight and dimension rating now uses the **actual Solidus package contents**, fixing the old whole-order/package ambiguity.
 
-- Max weight of one item: 18
-- Max width of one item: 60
-- Max length of one item: 90
-- Default weight: 1kg (applies when product weight is 0)
-- Handling fee: 10
-- Amount, over which handling fee won't be applied: 50
-- Max total of the order: 120.0
-- Weights (space separated): 1 2 5 10 20
-- Prices (space separated):  6 9 12 15 18
+See [`docs/migration.md`](docs/migration.md) for the behavioral mapping.
 
-## Applies?
+## Development
 
-The Shipping method does not apply to the order if:
+The repository follows current `solidus_dev_support` conventions.
 
-- Any items weighs more than 18 kg.
-- Any item is longer than 90 cm.
-- Any items second longest side (width) is over 60 cm. Eg a 70x70x20 item.
+```sh
+bundle install
+bin/sandbox
+bundle exec rake
+bundle exec rubocop
+```
 
-## Costs
-
-- Items weighing 10 kg of worth 100 Euros will cost 15 Euros.
-- Items weighing 10 kg of worth 40 Euros will cost 25 Euros (15 + 10 handling).
-- Items weighing less than 1 kg of worth 60 Euros will cost 6 Euros.
-- Items weighing less than 1 kg of worth 40 Euros will cost 16 Euros (6 + 10).
-- Items weighing 25 kg of worth 200 Euros will cost 30 Euros (2 packages, 18 + 12 Euro).
-- 3 items without weight information of worth 100 euros will cost 12 Euro.
-- Any amount of items costing more than the max_price will cost 0 Euro.
-
----
-
-## Contributing
-
-See corresponding [contributing guidelines][1].
-
----
+The pure rating policy is framework-light and exhaustively boundary-tested; the Solidus adapter is intentionally thin.
 
 ## License
 
-Copyright (c) 2011-2017 [Torsten Rüger][2], [Tobias Bohwalli][3] and other [contributors][4], released under the [New BSD License][5].
-
-[1]: https://github.com/futhr/spree-postal-service/blob/master/CONTRIBUTING.md
-[2]: https://github.com/dancinglightning
-[3]: https://github.com/futhr
-[4]: https://github.com/futhr/spree-postal-service/graphs/contributors
-[5]: https://github.com/futhr/spree-postal-service/blob/master/LICENSE.md
+BSD 3-Clause. See [LICENSE.md](LICENSE.md).
