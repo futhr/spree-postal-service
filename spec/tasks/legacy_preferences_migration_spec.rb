@@ -60,4 +60,21 @@ RSpec.describe "solidus_weighted_shipping:preferences:migrate" do
     expect(unchanged).to be_a(Spree::Calculator::Shipping::PostalService)
     expect(unchanged).to be_legacy_preferences
   end
+
+  it "reports invalid calculators by ID and leaves them unchanged" do
+    invalid_preferences = calculator.preferences.merge(
+      weight_table: "2 1",
+      price_table: "6 9"
+    )
+    calculator.update_column(:preferences, invalid_preferences)
+
+    expect do
+      task.invoke
+    end.to output(/calculator #{calculator.id}:.*strictly increasing/m).to_stderr
+      .and raise_error(SystemExit, /migration failed for 1 calculator/)
+
+    unchanged = Spree::Calculator.find(calculator.id)
+    expect(unchanged).to be_a(Spree::Calculator::Shipping::PostalService)
+    expect(unchanged.preferences).to eq(invalid_preferences)
+  end
 end
