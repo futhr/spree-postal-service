@@ -19,7 +19,7 @@ tags. Release tags identify published gem versions; archive tags identify exact
 branch tips. This distinction matters for the 1.1, 1.2, and 1.3 lines, whose
 final maintenance commits were made after their last release tags.
 
-| Former branch | Preserved tag | Final commit | Last release |
+| Former branch | Preserved tag | Final commit | Release / compatibility |
 | --- | --- | --- | --- |
 | `1-1-stable` | [`spree-1-1-stable`] | [`6ab80f6`] | [1.1.2] |
 | `1-2-stable` | [`spree-1-2-stable`] | [`130d803`] | [1.2.0] |
@@ -31,7 +31,7 @@ final maintenance commits were made after their last release tags.
 | `2-4-stable` | [`spree-2-4-stable`] | [`b97661e`] | [2.4.0] |
 | `3-0-stable` | [`spree-3-0-stable`] | [`1600766`] | [3.0.0] |
 | `3-1-stable` | [`spree-3-1-stable`] | [`82c7463`] | [3.1.0] |
-| `master` | [`spree-pre-refactor`] | [`b105df4`] | `3.3.0.alpha` development |
+| `master` | [`spree-3-3-alpha`] | [`b105df4`] | `3.3.0.alpha` / Spree `>= 3.1, < 4` |
 
 ## [Unreleased]
 
@@ -278,7 +278,7 @@ Pre-release and first preserved tag.
 [spree-2-4-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-4-stable
 [spree-3-0-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-0-stable
 [spree-3-1-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-1-stable
-[spree-pre-refactor]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-pre-refactor
+[spree-3-3-alpha]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-3-alpha
 [6ab80f6]: https://github.com/futhr/solidus-weighted-shipping/commit/6ab80f669a3a9cbafe95dbc6135b49ab126c30e1
 [130d803]: https://github.com/futhr/solidus-weighted-shipping/commit/130d8032287797749730e0099dcda28e92c6aa10
 [f01a42c]: https://github.com/futhr/solidus-weighted-shipping/commit/f01a42c7a297564661ba853e402039ce8126e306
