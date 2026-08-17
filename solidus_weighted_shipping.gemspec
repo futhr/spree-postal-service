@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "solidus_dev_support", "~> 2.12"
   spec.add_development_dependency "bundler-audit", "~> 0.9"
+  spec.add_development_dependency "faraday-retry", "~> 2.4"
   spec.add_development_dependency "mutant-rspec", ">= 0.15", "< 0.17"
   spec.add_development_dependency "rantly", ">= 2.0", "< 4"
   spec.add_development_dependency "rspec", "~> 3.13"

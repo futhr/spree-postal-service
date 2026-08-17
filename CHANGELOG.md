@@ -11,6 +11,27 @@ Historical releases were cut from version-specific Spree stable branches, not
 one linear release branch. Their entries were reconstructed from the preserved
 tags, tagged-tree diffs, and original GitHub release notes.
 
+## Historical stable branch archive
+
+The final state of every former Spree stable branch is preserved by a
+`spree-*-stable` tag. Release tags identify published gem versions; archive
+tags identify exact branch tips. This distinction matters for the 1.1, 1.2,
+and 1.3 lines, whose final maintenance commits were made after their last
+release tags.
+
+| Former branch | Preserved tag | Final commit | Last release |
+| --- | --- | --- | --- |
+| `1-1-stable` | [`spree-1-1-stable`] | [`6ab80f6`] | [1.1.2] |
+| `1-2-stable` | [`spree-1-2-stable`] | [`130d803`] | [1.2.0] |
+| `1-3-stable` | [`spree-1-3-stable`] | [`f01a42c`] | [1.3.0] |
+| `2-0-stable` | [`spree-2-0-stable`] | [`5dbdc07`] | [2.0.1] |
+| `2-1-stable` | [`spree-2-1-stable`] | [`60cd0d4`] | [2.1.0] |
+| `2-2-stable` | [`spree-2-2-stable`] | [`604f2e3`] | [2.2.0] |
+| `2-3-stable` | [`spree-2-3-stable`] | [`7987d01`] | [2.3.1] |
+| `2-4-stable` | [`spree-2-4-stable`] | [`b97661e`] | [2.4.0] |
+| `3-0-stable` | [`spree-3-0-stable`] | [`1600766`] | [3.0.0] |
+| `3-1-stable` | [`spree-3-1-stable`] | [`82c7463`] | [3.1.0] |
+
 ## [Unreleased]
 
 Release candidate: `4.0.0.pre`.
@@ -47,8 +68,9 @@ Release candidate: `4.0.0.pre`.
 - `ci(release)`: add the supported Ruby/Rails/Solidus matrix, coverage, lint,
   mutation, browser, package-installation, dependency-review, advisory, and
   Solidus edge jobs.
-- `ci(coverage)`: publish branch-aware LCOV reports to Codecov through GitHub
-  OIDC without a stored upload token.
+- `ci(coverage)`: retain branch-aware LCOV reports as workflow artifacts and,
+  after repository activation, publish them to Codecov through GitHub OIDC
+  without a stored upload token.
 
 ### Changed
 
@@ -68,6 +90,8 @@ Release candidate: `4.0.0.pre`.
   checks pass.
 - `chore(supply-chain)`: pin GitHub Actions to reviewed commit SHAs and restrict
   gem pushes to RubyGems.org.
+- `ci(quality)`: make external Codecov activation explicit and remove avoidable
+  Git, Ruby, mutation-parser, Octokit, and coverage-discovery warnings from CI.
 
 ### Fixed
 
@@ -243,3 +267,23 @@ Pre-release and first preserved tag.
 [1.2.0]: https://github.com/futhr/solidus-weighted-shipping/releases/tag/v1.2.0
 [1.1.2]: https://github.com/futhr/solidus-weighted-shipping/releases/tag/v1.1.2
 [1.1.0]: https://github.com/futhr/solidus-weighted-shipping/releases/tag/v1.1.0
+[spree-1-1-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-1-1-stable
+[spree-1-2-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-1-2-stable
+[spree-1-3-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-1-3-stable
+[spree-2-0-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-0-stable
+[spree-2-1-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-1-stable
+[spree-2-2-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-2-stable
+[spree-2-3-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-3-stable
+[spree-2-4-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-4-stable
+[spree-3-0-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-0-stable
+[spree-3-1-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-1-stable
+[6ab80f6]: https://github.com/futhr/solidus-weighted-shipping/commit/6ab80f669a3a9cbafe95dbc6135b49ab126c30e1
+[130d803]: https://github.com/futhr/solidus-weighted-shipping/commit/130d8032287797749730e0099dcda28e92c6aa10
+[f01a42c]: https://github.com/futhr/solidus-weighted-shipping/commit/f01a42c7a297564661ba853e402039ce8126e306
+[5dbdc07]: https://github.com/futhr/solidus-weighted-shipping/commit/5dbdc07298ea2dbc849c34cded7ea364f172fd49
+[60cd0d4]: https://github.com/futhr/solidus-weighted-shipping/commit/60cd0d40cf0b69126f76d5e257d03265dae1a245
+[604f2e3]: https://github.com/futhr/solidus-weighted-shipping/commit/604f2e35ffd78813f1583c90fd979c97eccd4800
+[7987d01]: https://github.com/futhr/solidus-weighted-shipping/commit/7987d01f1f14575a1701c1893d1f30c150127c85
+[b97661e]: https://github.com/futhr/solidus-weighted-shipping/commit/b97661e0d02a7a740c6e5667e8110a107007c5e0
+[1600766]: https://github.com/futhr/solidus-weighted-shipping/commit/16007666936a357800dcf7632244b6e6650d1fb7
+[82c7463]: https://github.com/futhr/solidus-weighted-shipping/commit/82c7463a88ab3ef2f723136d2a9315f0bec4098a

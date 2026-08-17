@@ -2,4 +2,5 @@ inherit_gem:
   solidus_dev_support: lib/solidus_dev_support/rubocop/config.yml
 
 AllCops:
+  SuggestExtensions: false
   TargetRubyVersion: 3.2

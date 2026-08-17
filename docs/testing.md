@@ -44,16 +44,23 @@ sandbox. `bin/rake` runs the complete RSpec suite.
 
 With `COVERAGE=true`, SimpleCov requires at least 95% line coverage, 85% branch
 coverage, and 70% per source file. Generated dummy files are excluded. The
-quality job writes LCOV and uploads it to Codecov with GitHub OIDC; no
-long-lived upload token is stored. Codecov requires 95% project and patch
-coverage in addition to the local gates. Coverage is diagnostic: boundary and
-mutation evidence remain the correctness gate.
+quality job always retains its LCOV output as a workflow artifact. After the
+Codecov GitHub app is granted access to the repository and the repository is
+set up in Codecov, set the GitHub Actions repository variable
+`CODECOV_ENABLED=true` to enable strict OIDC uploads; no long-lived upload token
+is stored. Codecov then requires 95% project and patch coverage in addition to
+the local gates. Coverage is diagnostic: boundary and mutation evidence remain
+the correctness gate.
 
 ## Supported matrix
 
 CI verifies Ruby 3.2/Rails 7.0/Solidus 4.6, Ruby 3.4/Rails 7.2 on Solidus 4.6
 and 4.7, and Ruby 4.0/Rails 8.1/Solidus 4.7. A Solidus `main` job is
 informational and may fail without blocking a release.
+
+Mutation analysis runs on Ruby 3.3, the newest Ruby grammar supported by its
+parser. The compatibility matrix independently exercises the maintained Ruby
+3.2, 3.4, and 4.0 runtimes.
 
 The tag-only release workflow is intentionally separate. It accepts only a
 stable tag matching the gem version on a commit contained in `main`, reruns
