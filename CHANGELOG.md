@@ -69,9 +69,8 @@ Release candidate: `4.0.0.pre`.
 - `ci(release)`: add the supported Ruby/Rails/Solidus matrix, coverage, lint,
   mutation, browser, package-installation, dependency-review, advisory, and
   Solidus edge jobs.
-- `ci(coverage)`: retain branch-aware LCOV reports as workflow artifacts and,
-  after repository activation, publish them to Codecov through GitHub OIDC
-  without a stored upload token.
+- `ci(coverage)`: retain branch-aware LCOV reports as workflow artifacts and
+  publish them to Codecov with the repository-scoped upload token.
 
 ### Changed
 

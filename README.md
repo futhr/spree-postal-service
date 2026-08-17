@@ -1,6 +1,7 @@
 # Solidus Weighted Shipping
 
 [![CI](https://github.com/futhr/solidus-weighted-shipping/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/futhr/solidus-weighted-shipping/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/github/futhr/solidus-weighted-shipping/branch/main/graph/badge.svg)](https://app.codecov.io/github/futhr/solidus-weighted-shipping)
 [![Release candidate](https://img.shields.io/badge/release-4.0.0.pre-orange.svg)](CHANGELOG.md#unreleased)
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D_3.2-CC342D.svg?logo=ruby&logoColor=white)](solidus_weighted_shipping.gemspec)
 [![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE.md)

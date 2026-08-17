@@ -52,9 +52,6 @@ jobs:
 
   quality:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     env:
       SOLIDUS_BRANCH: "v4.7"
       RAILS_VERSION: "8.1"
@@ -68,10 +65,13 @@ jobs:
       - run: bundle exec rake quality:coverage
       - run: bundle exec rake quality:lint
       - name: Upload coverage to Codecov
-        if: vars.CODECOV_ENABLED == 'true'
+        if: >-
+          vars.CODECOV_ENABLED == 'true' &&
+          (github.event_name != 'pull_request' ||
+          github.event.pull_request.head.repo.full_name == github.repository)
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
-          use_oidc: true
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/lcov/solidus-weighted-shipping.lcov
           disable_search: true
           fail_ci_if_error: true
