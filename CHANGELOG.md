@@ -11,13 +11,13 @@ Historical releases were cut from version-specific Spree stable branches, not
 one linear release branch. Their entries were reconstructed from the preserved
 tags, tagged-tree diffs, and original GitHub release notes.
 
-## Historical stable branch archive
+## Historical Spree branch archive
 
-The final state of every former Spree stable branch is preserved by a
-`spree-*-stable` tag. Release tags identify published gem versions; archive
-tags identify exact branch tips. This distinction matters for the 1.1, 1.2,
-and 1.3 lines, whose final maintenance commits were made after their last
-release tags.
+The last historical development breakpoint before the Solidus refactor and the
+final state of every former Spree stable branch are preserved by `spree-*`
+tags. Release tags identify published gem versions; archive tags identify exact
+branch tips. This distinction matters for the 1.1, 1.2, and 1.3 lines, whose
+final maintenance commits were made after their last release tags.
 
 | Former branch | Preserved tag | Final commit | Last release |
 | --- | --- | --- | --- |
@@ -31,6 +31,7 @@ release tags.
 | `2-4-stable` | [`spree-2-4-stable`] | [`b97661e`] | [2.4.0] |
 | `3-0-stable` | [`spree-3-0-stable`] | [`1600766`] | [3.0.0] |
 | `3-1-stable` | [`spree-3-1-stable`] | [`82c7463`] | [3.1.0] |
+| `master` | [`spree-pre-refactor`] | [`b105df4`] | `3.3.0.alpha` development |
 
 ## [Unreleased]
 
@@ -277,6 +278,7 @@ Pre-release and first preserved tag.
 [spree-2-4-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-2-4-stable
 [spree-3-0-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-0-stable
 [spree-3-1-stable]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-3-1-stable
+[spree-pre-refactor]: https://github.com/futhr/solidus-weighted-shipping/tree/spree-pre-refactor
 [6ab80f6]: https://github.com/futhr/solidus-weighted-shipping/commit/6ab80f669a3a9cbafe95dbc6135b49ab126c30e1
 [130d803]: https://github.com/futhr/solidus-weighted-shipping/commit/130d8032287797749730e0099dcda28e92c6aa10
 [f01a42c]: https://github.com/futhr/solidus-weighted-shipping/commit/f01a42c7a297564661ba853e402039ce8126e306
@@ -287,3 +289,4 @@ Pre-release and first preserved tag.
 [b97661e]: https://github.com/futhr/solidus-weighted-shipping/commit/b97661e0d02a7a740c6e5667e8110a107007c5e0
 [1600766]: https://github.com/futhr/solidus-weighted-shipping/commit/16007666936a357800dcf7632244b6e6650d1fb7
 [82c7463]: https://github.com/futhr/solidus-weighted-shipping/commit/82c7463a88ab3ef2f723136d2a9315f0bec4098a
+[b105df4]: https://github.com/futhr/solidus-weighted-shipping/commit/b105df4515afc44659b2203a555367106d6cb3b8
