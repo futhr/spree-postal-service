@@ -8,9 +8,10 @@ tracking, and generic rules-engine abstractions belong elsewhere.
 ## Set up the project
 
 ```sh
-bundle install
+bin/setup
 bin/sandbox
 bin/rake
+bin/rails runner 'puts SolidusWeightedShipping::VERSION'
 ```
 
 `bin/sandbox` creates a disposable Solidus dummy application under
@@ -23,9 +24,9 @@ submitting the change:
 
 ```sh
 bin/rake
-bundle exec rake quality:coverage
-bundle exec rake quality:lint
-bundle exec rake quality:mutation
+bin/rake quality:coverage
+bin/rake quality:lint
+bin/rake quality:mutation
 ```
 
 Tests should cover exact boundaries and failure behavior. Changes to pricing or
@@ -39,7 +40,7 @@ Set the Rails and Solidus versions before dependency resolution, then keep those
 variables on the dummy-app and test commands. For example:
 
 ```sh
-RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 bundle install
+RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 ruby -S bundle install
 RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 bin/sandbox
 RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 bin/rake extension:specs
 ```

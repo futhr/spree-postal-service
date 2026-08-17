@@ -36,8 +36,8 @@ jobs:
       SOLIDUS_BRANCH: ${{ matrix.solidus }}
       RAILS_VERSION: ${{ matrix.rails }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
@@ -46,19 +46,28 @@ jobs:
 
   quality:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     env:
       SOLIDUS_BRANCH: "v4.7"
       RAILS_VERSION: "8.1"
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "4.0"
           bundler-cache: true
           cache-version: quality-v4.7-rails-8.1
       - run: bundle exec rake quality:coverage
       - run: bundle exec rake quality:lint
-      - uses: actions/upload-artifact@v7
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          use_oidc: true
+          files: coverage/lcov/solidus-weighted-shipping.lcov
+          fail_ci_if_error: true
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: coverage
@@ -73,8 +82,8 @@ jobs:
       RAILS_VERSION: "7.2"
       MUTANT_JOBS: "2"
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "3.4"
           bundler-cache: true
@@ -87,15 +96,15 @@ jobs:
       SOLIDUS_BRANCH: "v4.7"
       RAILS_VERSION: "8.1"
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "4.0"
           bundler-cache: true
           cache-version: browser-v4.7-rails-8.1
       - run: bin/rake extension:test_app
       - run: bundle exec rspec spec/system
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always()
         with:
           name: weighted-shipping-browser-evidence
@@ -109,8 +118,8 @@ jobs:
       SOLIDUS_BRANCH: "v4.7"
       RAILS_VERSION: "8.1"
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "4.0"
           bundler-cache: true
@@ -128,7 +137,7 @@ jobs:
           gem install --local pkg/solidus_weighted_shipping.gem --install-dir "$package_home" --ignore-dependencies --no-document
           package_lib="$(find "$package_home/gems" -path '*/solidus_weighted_shipping-*/lib' -type d -print -quit)"
           ruby -I"$package_lib" -e 'require "solidus_weighted_shipping/domain"; abort unless SolidusWeightedShipping::RateTable.parse("1: 2").price_for("1") == 2'
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: solidus-weighted-shipping-gem
           path: pkg/solidus_weighted_shipping.gem
@@ -142,8 +151,8 @@ jobs:
       SOLIDUS_BRANCH: main
       RAILS_VERSION: "8.1"
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           ruby-version: "4.0"
           bundler-cache: true

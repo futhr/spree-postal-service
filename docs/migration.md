@@ -7,9 +7,8 @@ This guide is for stores upgrading from `spree_postal_service`. New
 installations can start with the canonical dependency and calculator names and
 do not need to run the preference migration.
 
-The repository rename is from `futhr/spree-postal-service` to
-`futhr/solidus-weighted-shipping`. Preserve the old GitHub redirect and never
-create a different repository at the historical path.
+The repository is now `futhr/solidus-weighted-shipping`. Preserve the GitHub
+redirect from the historical repository path.
 
 ## Dependency and calculator names
 
@@ -20,10 +19,10 @@ gem "solidus_weighted_shipping", github: "futhr/solidus-weighted-shipping", bran
 ```
 
 New shipping methods use
-`Spree::Calculator::Shipping::WeightedShipping`. During migration, the root
-`spree_postal_service` require aliases the old Ruby namespace and
-`Spree::Calculator::Shipping::PostalService` remains loadable for persisted STI
-records. Neither legacy name is registered for new shipping methods.
+`Spree::Calculator::Shipping::WeightedShipping`. The new gem deliberately does
+not define `SpreePostalService`, provide `require "spree_postal_service"`, or
+load `Spree::Calculator::Shipping::PostalService`. The migration task treats
+the old calculator name strictly as persisted data.
 
 ## Preference mapping
 
@@ -51,9 +50,8 @@ The migration maps preferences as follows:
 | `handling_fee` | `handling_fee` |
 | `default_weight` | `default_item_weight` |
 
-Historical keys are read directly until conversion, so deployment does not
-require a synchronized maintenance window. A canonical admin edit clears its
-corresponding historical key immediately.
+The migration task recognizes historical keys and converts them into canonical
+preferences. A canonical admin edit clears any corresponding historical key.
 
 Preview every affected calculator without writing:
 
@@ -75,15 +73,21 @@ any data migration.
 ## Deployment sequence
 
 1. Back up the database and record every affected calculator ID.
-2. Deploy `solidus_weighted_shipping` while leaving the compatibility require
-   and STI shim enabled.
-3. Run the dry-run task and correct every reported legacy configuration.
-4. Run the write task once. It is deterministic and skips already-canonical
+2. Stop web and worker processes that could load a legacy calculator row.
+3. Replace the old dependency with `solidus_weighted_shipping`, then boot only
+   the release process used to run the migration task.
+4. Run the dry-run task and correct every reported legacy configuration.
+5. Run the write task once. It is deterministic and skips already-canonical
    calculators on subsequent runs.
-5. Exercise shipping estimation for eligible, oversized, free-shipping, and
+6. Start application processes and exercise shipping estimation for eligible,
+   oversized, free-shipping, and
    multi-package orders in the target store.
-6. Remove the old `spree_postal_service` Gemfile entry and any explicit legacy
-   require after the application loads the new gem successfully.
+
+The task selects and locks legacy rows without instantiating their STI class,
+temporarily assigns the canonical type inside a transaction, validates the
+converted policy, and commits only a successful write. Dry runs and failures
+roll back the type and preferences together. This cutover is intentionally an
+explicit maintenance boundary rather than a permanent compatibility layer.
 
 The write task is intentionally one-way: it replaces legacy keys and changes
 the STI type to `Spree::Calculator::Shipping::WeightedShipping`. A downgrade to

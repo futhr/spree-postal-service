@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "bundler/gem_tasks"
 require "solidus_dev_support/rake_tasks"
 
 SolidusDevSupport::RakeTasks.install
@@ -7,8 +8,9 @@ SolidusDevSupport::RakeTasks.install
 namespace :quality do
   desc "Run StandardRB and the Solidus RuboCop rules"
   task :lint do
-    sh "bundle", "exec", "standardrb"
-    sh "bundle", "exec", "rubocop"
+    targets = %w[. bin/rails bin/rails-engine bin/rails-sandbox]
+    sh Gem.ruby, "-S", "bundle", "exec", "standardrb", *targets
+    sh Gem.ruby, "-S", "bundle", "exec", "rubocop", *targets
   end
 
   desc "Run the complete suite with line and branch coverage gates"
@@ -19,11 +21,11 @@ namespace :quality do
   desc "Mutation-test the high-risk pricing and eligibility decisions"
   task :mutation do
     jobs = ENV.fetch("MUTANT_JOBS", "2")
-    common = %w[
-      bundle exec mutant run
-      --usage opensource
-      --integration rspec
-      --require solidus_weighted_shipping/domain
+    common = [
+      Gem.ruby, "-S", "bundle", "exec", "mutant", "run",
+      "--usage", "opensource",
+      "--integration", "rspec",
+      "--require", "solidus_weighted_shipping/domain"
     ]
 
     sh(

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+command = ARGV.first
+executable = %w[g generate].include?(command) ? "rails-engine" : "rails-sandbox"
+
+exec File.expand_path(executable, __dir__), *ARGV

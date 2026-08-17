@@ -57,6 +57,13 @@ RSpec.describe SolidusWeightedShipping::PackageInput do
       expect(package.total_weight(default_weight: "1.5")).to eq(decimal("3"))
     end
 
+    it "rejects an invalid fallback at the calculation boundary" do
+      package = weighted_package(weight: nil)
+
+      expect { package.total_weight(default_weight: "0") }
+        .to raise_error(SolidusWeightedShipping::InputError, /greater than zero/)
+    end
+
     it "copies and freezes the item collection" do
       items = [weighted_item]
       package = weighted_package(items:)

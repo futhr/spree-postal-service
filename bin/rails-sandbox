@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+root = File.expand_path("..", __dir__)
+app_root = File.join(root, ENV.fetch("DUMMY_PATH", "spec/dummy"))
+
+unless File.exist?(File.join(app_root, "bin/rails"))
+  warn "Creating the disposable Solidus application..."
+  system(File.join(root, "bin/sandbox"), chdir: root) || abort("Automatic application creation failed")
+end
+
+Dir.chdir(app_root)
+exec File.join(app_root, "bin/rails"), *ARGV

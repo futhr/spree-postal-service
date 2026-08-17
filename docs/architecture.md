@@ -68,14 +68,13 @@ Parsed policy is memoized by an immutable signature of effective preferences.
 Canonical preference writers invalidate legacy keys, and any changed
 preference produces a new signature; rating never persists that cache.
 
-## Compatibility boundary
+## Migration boundary
 
-`require "spree_postal_service"` aliases the legacy namespace, and
-`Spree::Calculator::Shipping::PostalService` subclasses the canonical
-calculator so existing STI records can load. Only `WeightedShipping` is
-registered for new methods. The migration task converts old keys and STI types
-transactionally; compatibility is a migration bridge, not a second runtime
-mode.
+Only `WeightedShipping` is defined and registered. The migration task recognizes
+the historical calculator name as a stored STI string, locks the row without
+instantiating that class, assigns the canonical type inside a transaction, and
+then validates and converts old preference keys. No legacy runtime constant or
+require path is shipped.
 
 ## Negative architecture
 

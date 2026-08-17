@@ -53,6 +53,16 @@ RSpec.describe SolidusWeightedShipping::RateTable do
       expect(legacy.bands).to eq(table.bands)
     end
 
+    it "accepts historical array values without changing their meaning" do
+      legacy = described_class.from_legacy(
+        thresholds: %w[1 2 5 10 20],
+        prices: %w[6 9 12 15 18]
+      )
+
+      expect(legacy.bands).to eq(table.bands)
+      expect(legacy.dump).to eq(source)
+    end
+
     it "rejects empty, uneven, and invalid legacy tables" do
       invalid_pairs = [
         ["", ""],
@@ -71,6 +81,23 @@ RSpec.describe SolidusWeightedShipping::RateTable do
   end
 
   describe "validation" do
+    it "normalizes explicit band and hash values at the construction boundary" do
+      band = described_class::Band.new(
+        maximum_weight_in_store_units: "1",
+        price_in_currency_units: "6"
+      )
+      structured = described_class.new(
+        bands: [
+          band,
+          {maximum_weight: "2", price: "9"},
+          {"maximum_weight" => "5", "price" => "12"}
+        ]
+      )
+
+      expect(structured.dump).to eq("1: 6\n2: 9\n5: 12")
+      expect(structured.bands).to all(be_a(described_class::Band))
+    end
+
     it "rejects malformed structured bands and binary floats" do
       expect { described_class.new(bands: [["1"]]) }
         .to raise_error(SolidusWeightedShipping::ConfigurationError, /maximum weight and price/)

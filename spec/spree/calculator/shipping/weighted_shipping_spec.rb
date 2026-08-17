@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "spree_postal_service"
-
 RSpec.describe Spree::Calculator::Shipping::WeightedShipping do
   subject(:calculator) { described_class.new }
 
@@ -119,13 +117,45 @@ RSpec.describe Spree::Calculator::Shipping::WeightedShipping do
   end
 
   it "restores legacy preferences when migration validation fails" do
+    calculator.preferences[:weight_table] = "1 2"
+    calculator.preferences[:price_table] = "5 8"
+    calculator.preferences[:max_item_weight] = BigDecimal("0")
+    before = calculator.preferences.dup
+
+    expect { calculator.migrate_legacy_preferences! }
+      .to raise_error(SolidusWeightedShipping::ConfigurationError, /greater than zero/)
+    expect(calculator.preferences).to eq(before)
+  end
+
+  it "leaves malformed legacy tables untouched before migration begins" do
     calculator.preferences[:weight_table] = "2 1"
     calculator.preferences[:price_table] = "5 8"
     before = calculator.preferences.dup
 
     expect { calculator.migrate_legacy_preferences! }
-      .to raise_error(SolidusWeightedShipping::ConfigurationError)
+      .to raise_error(SolidusWeightedShipping::ConfigurationError, /strictly increasing/)
     expect(calculator.preferences).to eq(before)
+  end
+
+  it "reads string-keyed preferences emitted by historical serializers" do
+    calculator.preferences = {
+      "weight_table" => "1 2",
+      "price_table" => "5 8",
+      "max_price" => BigDecimal("1000")
+    }
+
+    expect(calculator.compute_package(package)).to eq(BigDecimal("40"))
+    expect(calculator.migrate_legacy_preferences!).to be(true)
+    expect(calculator.preferred_rate_table).to eq("1: 5\n2: 8")
+  end
+
+  it "uses package merchandise as the order total when no order is available" do
+    allow(package).to receive(:order).and_return(nil)
+
+    quote = calculator.quote_package(package)
+
+    expect(quote).to be_available
+    expect(quote.amount).to eq(BigDecimal("15"))
   end
 
   it "invalidates the cached policy when configuration changes" do
@@ -137,14 +167,15 @@ RSpec.describe Spree::Calculator::Shipping::WeightedShipping do
   end
 
   it "registers only the canonical calculator for new shipping methods" do
-    expect(Rails.application.config.spree.calculators.shipping_methods)
-      .to include(Spree::Calculator::Shipping::WeightedShipping)
-    expect(Rails.application.config.spree.calculators.shipping_methods)
-      .not_to include(Spree::Calculator::Shipping::PostalService)
+    calculator_names = Rails.application.config.spree.calculators.shipping_methods.map(&:to_s)
+
+    expect(calculator_names).to include(described_class.name)
+    expect(calculator_names).not_to include("Spree::Calculator::Shipping::PostalService")
   end
 
-  it "keeps the original calculator class as a migration shim" do
-    expect(Spree::Calculator::Shipping::PostalService).to be < described_class
-    expect(SpreePostalService).to equal(SolidusWeightedShipping)
+  it "does not expose the historical runtime identity" do
+    expect("Spree::Calculator::Shipping::PostalService".safe_constantize).to be_nil
+    expect(Object.const_defined?(:SpreePostalService)).to be(false)
+    expect { require "spree_postal_service" }.to raise_error(LoadError)
   end
 end

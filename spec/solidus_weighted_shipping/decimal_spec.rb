@@ -10,6 +10,7 @@ RSpec.describe SolidusWeightedShipping::Decimal do
       expect(described_class.coerce("3.125")).to eq(decimal("3.125"))
       expect(described_class.coerce(Rational(1, 8))).to eq(decimal("0.125"))
       expect(described_class.coerce(Rational(-1, 20))).to eq(decimal("-0.05"))
+      expect(described_class.coerce(Rational(2, 1))).to eq(decimal("2"))
     end
 
     it "rejects inexact numeric representations instead of silently rounding them" do

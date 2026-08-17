@@ -8,27 +8,38 @@ namespace :solidus_weighted_shipping do
       migrated = 0
       unchanged = 0
       failures = []
-      calculator_types = [
-        "Spree::Calculator::Shipping::PostalService",
-        "Spree::Calculator::Shipping::WeightedShipping"
-      ]
+      legacy_type = "Spree::Calculator::Shipping::PostalService"
+      canonical_type = "Spree::Calculator::Shipping::WeightedShipping"
+      calculator_ids = Spree::Calculator.unscoped.where(type: [legacy_type, canonical_type]).ids
 
-      Spree::Calculator.where(type: calculator_types).find_each do |calculator|
-        calculator.with_lock do
+      calculator_ids.each do |calculator_id|
+        outcome = nil
+
+        Spree::Calculator.transaction(requires_new: true) do
+          row = Spree::Calculator.unscoped.where(id: calculator_id).lock
+          stored_type = row.pick(:type)
+          next unless stored_type
+
+          type_changed = stored_type != canonical_type
+          row.update_all(type: canonical_type) if type_changed
+
+          calculator = Spree::Calculator::Shipping::WeightedShipping.find(calculator_id)
           preferences_changed = calculator.migrate_legacy_preferences!
-          type_changed = calculator.type != "Spree::Calculator::Shipping::WeightedShipping"
+          outcome = (preferences_changed || type_changed) ? :migrated : :unchanged
 
-          unless preferences_changed || type_changed
-            unchanged += 1
-            next
+          if outcome == :migrated
+            raise ActiveRecord::RecordInvalid.new(calculator) unless calculator.valid?
+
+            calculator.save! unless dry_run
           end
 
-          calculator.type = "Spree::Calculator::Shipping::WeightedShipping"
-          calculator.save! unless dry_run
-          migrated += 1
+          raise ActiveRecord::Rollback if dry_run && outcome == :migrated
         end
+
+        migrated += 1 if outcome == :migrated
+        unchanged += 1 if outcome == :unchanged
       rescue => error
-        failures << "calculator #{calculator.id}: #{error.class}: #{error.message}"
+        failures << "calculator #{calculator_id}: #{error.class}: #{error.message}"
       end
 
       action = dry_run ? "would migrate" : "migrated"

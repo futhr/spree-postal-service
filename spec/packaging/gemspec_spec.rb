@@ -10,7 +10,11 @@ RSpec.describe "the packaged gem" do
     expect(specification.version.to_s).to eq(SolidusWeightedShipping::VERSION)
     expect(specification.homepage).to eq("https://github.com/futhr/solidus-weighted-shipping")
     expect(specification.metadata["source_code_uri"]).to end_with("/tree/main")
-    expect(specification.metadata).to include("rubygems_mfa_required" => "true")
+    expect(specification.metadata["documentation_uri"]).to end_with("/blob/main/docs/README.md")
+    expect(specification.metadata).to include(
+      "allowed_push_host" => "https://rubygems.org",
+      "rubygems_mfa_required" => "true"
+    )
   end
 
   it "contains runtime code and documentation without test or generated files" do
@@ -18,8 +22,8 @@ RSpec.describe "the packaged gem" do
       "lib/solidus_weighted_shipping.rb",
       "lib/solidus_weighted_shipping/domain.rb",
       "app/models/spree/calculator/shipping/weighted_shipping.rb",
-      "lib/spree_postal_service.rb",
       "README.md",
+      "docs/README.md",
       "docs/architecture.md",
       "docs/migration.md",
       "docs/release.md",
@@ -27,6 +31,7 @@ RSpec.describe "the packaged gem" do
       "docs/testing.md",
       "docs/troubleshooting.md"
     )
+    expect(specification.files.grep(/spree_postal_service/)).to be_empty
     expect(specification.files).not_to include("spree_postal_service.gemspec")
     expect(specification.files.grep(%r{\A(?:spec|sandbox|tmp)/})).to be_empty
   end

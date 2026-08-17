@@ -10,10 +10,11 @@ repository supplies the disposable Solidus application.
 bin/setup
 bin/sandbox
 bin/rake
-bundle exec rake quality:coverage
-bundle exec rake quality:lint
-bundle exec rake quality:mutation
-bundle exec bundle-audit check --update
+bin/rails runner 'puts SolidusWeightedShipping::VERSION'
+bin/rake quality:coverage
+bin/rake quality:lint
+bin/rake quality:mutation
+ruby -S bundle exec bundle-audit check --update
 ```
 
 `bin/sandbox` removes and rebuilds `spec/dummy`; it does not create a committed
@@ -42,14 +43,22 @@ sandbox. `bin/rake` runs the complete RSpec suite.
 ## Coverage gates
 
 With `COVERAGE=true`, SimpleCov requires at least 95% line coverage, 85% branch
-coverage, and 70% per source file. Generated dummy files are excluded. Coverage
-is diagnostic: boundary and mutation evidence remain the correctness gate.
+coverage, and 70% per source file. Generated dummy files are excluded. The
+quality job writes LCOV and uploads it to Codecov with GitHub OIDC; no
+long-lived upload token is stored. Codecov requires 95% project and patch
+coverage in addition to the local gates. Coverage is diagnostic: boundary and
+mutation evidence remain the correctness gate.
 
 ## Supported matrix
 
 CI verifies Ruby 3.2/Rails 7.0/Solidus 4.6, Ruby 3.4/Rails 7.2 on Solidus 4.6
 and 4.7, and Ruby 4.0/Rails 8.1/Solidus 4.7. A Solidus `main` job is
 informational and may fail without blocking a release.
+
+The tag-only release workflow is intentionally separate. It accepts only a
+stable tag matching the gem version on a commit contained in `main`, reruns
+coverage, style, mutation, and dependency-audit gates, then uses RubyGems
+Trusted Publishing from the protected `release` environment.
 
 Set `RAILS_VERSION` and `SOLIDUS_BRANCH` before resolving the bundle. The
 Gemfile pins the requested Rails minor so a `7.0` job cannot silently resolve

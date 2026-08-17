@@ -43,7 +43,10 @@ Applications must not copy it into production as a storefront endpoint.
 The published runtime graph is limited to `solidus_core` and
 `solidus_support`. GitHub Actions runs Bundler Audit, dependency review, lint,
 tests, browser evidence, and package installation. Dependabot checks Bundler
-and Actions weekly. Gem metadata requires MFA for publishing.
+and Actions weekly. Every action is pinned to a reviewed commit SHA. Gem
+metadata requires MFA and restricts its push host to RubyGems.org; the release
+workflow uses short-lived OIDC Trusted Publishing credentials from a protected
+GitHub environment instead of a stored API token.
 
 The two temporary Puma audit exceptions are documented in `SECURITY.md` and
 `.bundler-audit.yml`. Puma is development-only through `solidus_dev_support`,

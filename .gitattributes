@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+*.gem binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary

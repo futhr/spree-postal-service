@@ -2,6 +2,20 @@
 
 require "simplecov"
 
+if ENV["COVERAGE"] == "true"
+  require "simplecov-lcov"
+
+  SimpleCov::Formatter::LcovFormatter.config do |config|
+    config.report_with_single_file = true
+    config.lcov_file_name = "solidus-weighted-shipping.lcov"
+  end
+
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::LcovFormatter
+  ])
+end
+
 SimpleCov.enable_coverage :branch
 SimpleCov.start("rails") do
   add_filter %r{^/lib/generators/.*/install/install_generator.rb}

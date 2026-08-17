@@ -1,6 +1,11 @@
 .bundle/
 .mutant/
+.env
+.env.*
+!.env.example
+*.gem
 Gemfile.lock
+checksums/
 coverage/
 pkg/
 sandbox/

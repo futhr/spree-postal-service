@@ -8,15 +8,5 @@ sv:
     free_shipping_threshold: Ordervärde över vilket frakten är gratis
     handling_threshold: Paketvärde vid eller under vilket hanteringsavgift tillämpas
     default_item_weight: Förvald vikt för en artikel utan positiv vikt
-    price_table: Priser (mellanrums separerade)
-    weight_table: Vikter (mellanrums separerade)
-    postal_service: Post Service
     weighted_shipping: Viktbaserad frakt
-    max_item_weight: Max vikt på ett objekt
-    max_item_width: Max bredd på ett objekt
-    max_item_length: Max längd på ett objekt
     handling_fee: Hantering avgift
-    handling_max: "Belopp, över vilken expeditionsavgift inte skall tillämpas"
-    min_price: Minsta belopp
-    default_weight: Förvald vikt
-    max_price: Största belopp

@@ -89,4 +89,27 @@ RSpec.describe "weighted shipping properties" do
       expect(quote.currency).to eq("USD")
     end
   end
+
+  it "substitutes the configured fallback exactly for generated non-positive weights" do
+    property_of do
+      [range(-100_000, 0), range(1, 100_000), range(1, 20), range(0, 1)]
+    end.check(300) do |weight_hundredths, fallback_hundredths, quantity, use_nil|
+      weight = use_nil.zero? ? nil : decimal(weight_hundredths.to_s) / 100
+      fallback = decimal(fallback_hundredths.to_s) / 100
+      package = weighted_package(weight:, quantity:)
+
+      expect(package.total_weight(default_weight: fallback)).to eq(fallback * quantity)
+    end
+  end
+
+  it "parses every generated legacy whitespace layout as the same table" do
+    property_of { array(12) { choose(" ", "  ", "\t", "\n", " \t ") } }.check(300) do |whitespace|
+      thresholds = "#{whitespace[0]}1#{whitespace[1]}2#{whitespace[2]}5#{whitespace[3]}10#{whitespace[4]}20#{whitespace[5]}"
+      prices = "#{whitespace[6]}6#{whitespace[7]}9#{whitespace[8]}12#{whitespace[9]}15#{whitespace[10]}18#{whitespace[11]}"
+
+      expect(
+        SolidusWeightedShipping::RateTable.from_legacy(thresholds:, prices:).bands
+      ).to eq(table.bands)
+    end
+  end
 end

@@ -33,18 +33,22 @@ Release candidate: `4.0.0.pre`.
   package-input, calculator, decimal, and quote objects.
 - `feat(migration)`: add deterministic legacy preference and STI conversion,
   including dry-run support and per-calculator failure reporting.
-- `feat(compat)`: keep the old require path, namespace alias, preference reader,
-  and calculator subclass as migration bridges without registering them for new
-  shipping methods.
+- `feat(migration)`: recognize historical preference and STI data in the
+  explicit migration task without shipping the old require path, namespace, or
+  calculator class.
 - `test(domain)`: add exhaustive boundary, property, and mutation tests for
   rate selection, overflow parcels, dimensions, free shipping, and handling.
 - `test(solidus)`: add real estimator, persistence, multi-package,
   multi-currency, and no-write integration coverage.
 - `test(system)`: add eight asserted and inspected admin/customer browser
   screenshots covering the complete weighted-shipping journey.
+- `test(audit)`: add the generated-app Rails command, final-audit record, and
+  explicit evidence for every supported structured/legacy input branch.
 - `ci(release)`: add the supported Ruby/Rails/Solidus matrix, coverage, lint,
   mutation, browser, package-installation, dependency-review, advisory, and
   Solidus edge jobs.
+- `ci(coverage)`: publish branch-aware LCOV reports to Codecov through GitHub
+  OIDC without a stored upload token.
 
 ### Changed
 
@@ -57,6 +61,13 @@ Release candidate: `4.0.0.pre`.
   a disposable sandbox, GitHub Actions, and a narrowly packaged runtime gem.
 - `docs(operations)`: document installation, configuration, architecture,
   migration, rollback, verification, security, troubleshooting, and release.
+- `docs(release)`: use the renamed GitHub repository throughout installation,
+  package metadata, changelog, and release guidance.
+- `ci(release)`: publish stable version tags through RubyGems Trusted
+  Publishing after version, branch, test, mutation, style, and dependency
+  checks pass.
+- `chore(supply-chain)`: pin GitHub Actions to reviewed commit SHAs and restrict
+  gem pushes to RubyGems.org.
 
 ### Fixed
 

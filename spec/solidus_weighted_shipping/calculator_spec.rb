@@ -75,6 +75,16 @@ RSpec.describe SolidusWeightedShipping::Calculator do
         handling_fee_in_currency_units: "1"
       )
     end.to raise_error(SolidusWeightedShipping::ConfigurationError, /RateTable/)
+
+    expect do
+      described_class.new(
+        rate_table: SolidusWeightedShipping::RateTable.parse("1: 1"),
+        constraints: Object.new,
+        free_shipping_threshold_in_currency_units: "1",
+        handling_threshold_in_currency_units: "1",
+        handling_fee_in_currency_units: "1"
+      )
+    end.to raise_error(SolidusWeightedShipping::ConfigurationError, /Constraints/)
   end
 
   it "accepts specialized package input values" do

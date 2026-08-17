@@ -35,9 +35,9 @@ Ruby code are rejected—use decimal strings or `BigDecimal`.
 
 ## Legacy calculators do not load or migrate
 
-Ensure the application depends on `solidus_weighted_shipping` and does not
-suppress its engine initializer. `require "spree_postal_service"` and the old
-STI class remain as temporary load bridges.
+Legacy calculator rows are not expected to load: the new gem intentionally
+ships no old STI class. Stop application processes and run the migration as a
+release task before serving traffic.
 
 Run:
 
@@ -54,7 +54,7 @@ unchanged. Correct that calculator and repeat the dry run before writing.
 Export both variables before `bundle install` and rebuild the dummy app:
 
 ```sh
-RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 bundle install
+RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 ruby -S bundle install
 RAILS_VERSION=7.0 SOLIDUS_BRANCH=v4.6 bin/rake clobber extension:test_app
 ```
 
@@ -64,7 +64,7 @@ reuse a bundle resolved for another Ruby ABI without reinstalling.
 ## Browser specs fail locally
 
 Install a current Chrome/Chromium compatible with Selenium, rebuild the dummy
-app, and run `bundle exec rspec spec/system`. Failure screenshots are written
+app, and run `ruby -S bundle exec rspec spec/system`. Failure screenshots are written
 under `tmp/screenshots`; server output remains under the disposable dummy app.
 
 ## Bundler Audit reports Puma

@@ -63,5 +63,19 @@ RSpec.describe SolidusWeightedShipping::Quote do
       .to raise_error(SolidusWeightedShipping::InputError, /three-letter/)
     expect { described_class.rated(amount: "1", currency: "USD", chargeable_weight_in_store_units: "1", parcel_count: "1.5", handling_fee: "0") }
       .to raise_error(SolidusWeightedShipping::InputError, /whole number/)
+    expect { described_class.rated(amount: "-1", currency: "USD", chargeable_weight_in_store_units: "1", parcel_count: 1, handling_fee: "0") }
+      .to raise_error(SolidusWeightedShipping::InputError, /quote amount must not be negative/)
+    expect { described_class.rated(amount: "1", currency: "USD", chargeable_weight_in_store_units: "-1", parcel_count: 1, handling_fee: "0") }
+      .to raise_error(SolidusWeightedShipping::InputError, /chargeable weight must not be negative/)
+    expect { described_class.rated(amount: "1", currency: "USD", chargeable_weight_in_store_units: "1", parcel_count: -1, handling_fee: "0") }
+      .to raise_error(SolidusWeightedShipping::InputError, /parcel count must not be negative/)
+    expect { described_class.rated(amount: "1", currency: "USD", chargeable_weight_in_store_units: "1", parcel_count: 1, handling_fee: "-1") }
+      .to raise_error(SolidusWeightedShipping::InputError, /handling fee must not be negative/)
+    expect do
+      described_class.new(status: :rated, amount: "1", reason: :unexpected, **common)
+    end.to raise_error(SolidusWeightedShipping::InputError, /must not include an unavailable reason/)
+    expect do
+      described_class.new(status: :unavailable, amount: "1", reason: :oversized, **common.merge(parcel_count: 0))
+    end.to raise_error(SolidusWeightedShipping::InputError, /must not include an amount/)
   end
 end
