@@ -57,23 +57,19 @@ source checkout and remain release gates.
 
 ## GitHub operations
 
-The repository rename is complete and the local remote uses the canonical URL.
-At audit time, GitHub still reported:
+The repository rename and history reconciliation are complete. Commit
+`30ac47c` records the ancestry-preserving merge. A follow-up verification on 18
+August 2026 confirmed that:
 
-- `master` as the default branch;
-- no protection on `main`, no repository rulesets, and no release environment;
-- secret scanning and push protection disabled;
-- the historical Spree description, homepage, and topics;
-- the out-of-scope 2012 pull request #3 still open.
+- `main` is the default branch and is synchronized with `origin/main`;
+- the repository description and topics describe the maintained Solidus gem;
+- private vulnerability reporting is enabled; and
+- historical pull request #3 is closed.
 
-Local `main` and the provisional remote modernization branch are parallel
-rewrites that preserve the original `master` ancestry. Reconcile them with the
-non-destructive ancestry merge documented in
-[release.md](release.md#one-time-main-reconciliation). After that merge, switch
-and protect the default branch, enable private vulnerability reporting and secret
-scanning/push protection where GitHub permits it, create the protected
-`release` environment, update repository metadata to Solidus, and resolve the
-historical pull request with a recorded rationale.
+GitHub still reports no protection on `main`, no repository rulesets, and no
+`release` environment. Secret scanning and push protection are also disabled.
+These are current publication gates, along with RubyGems Trusted Publisher
+ownership and maintainer MFA; the completed history merge must not be repeated.
 
 ## Provider/API status
 
@@ -94,9 +90,9 @@ eight semantically asserted browser screenshots. Exact commands are listed in
   separate tables per currency.
 - Browser evidence uses a test-only estimator preview because the extension
   intentionally does not package a storefront.
-- Default-branch switch, branch/environment protection, RubyGems Trusted
-  Publisher/MFA, and green remote checks on the exact release commit require
-  authorized external configuration.
+- Branch/environment/tag protection, secret scanning and push protection,
+  RubyGems Trusted Publisher/MFA, and green remote checks on the exact release
+  commit require authorized external configuration.
 
 ## Release action
 

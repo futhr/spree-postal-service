@@ -95,6 +95,8 @@ Release candidate: `4.0.0.pre`.
 
 ### Fixed
 
+- `docs(release)`: retire completed branch-reconciliation steps and keep the
+  remaining publication protections explicit.
 - `fix(constraints)`: compare the longest and second-longest dimensions
   independently of product orientation.
 - `fix(weight)`: apply the fallback weight consistently to missing, zero, and

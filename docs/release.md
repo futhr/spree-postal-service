@@ -41,10 +41,9 @@ in the [architecture](architecture.md) and [migration](migration.md) guides.
 
 ## Prepare the release
 
-1. Complete the one-time `main` reconciliation below, make `main` the GitHub default
-   branch, then protect it with required CI and security checks, blocked force
-   pushes, and blocked deletion. Add a `v*` tag ruleset that blocks tag updates
-   and deletion after publication.
+1. Protect `main` with required CI and security checks, blocked force pushes,
+   and blocked deletion. Add a `v*` tag ruleset that blocks tag updates and
+   deletion after publication.
 2. Create a protected GitHub environment named `release` with a maintainer
    approval rule.
 3. Configure a pending RubyGems Trusted Publisher for gem
@@ -65,26 +64,17 @@ in the [architecture](architecture.md) and [migration](migration.md) guides.
    dynamic RubyGems version and download badges. Commit the release metadata as
    one Conventional Commit.
 
-## One-time `main` reconciliation
+## Completed repository preparation
 
-The audited local `main` and the provisional remote `main` contain parallel
-rewrites from the same historical `master` base. Preserve both ancestries while
-keeping the audited tree by recording an explicit `ours` merge. This makes the
-next push a normal fast-forward from the current remote tip and avoids rewriting
-or archiving remote history.
+The one-off history reconciliation was completed by commit `30ac47c` and is
+preserved in the repository graph. As verified on 18 August 2026, `main` is the
+GitHub default branch and local `main` is synchronized with `origin/main`.
+Maintainers must not repeat the reconciliation merge.
 
-1. Fetch `origin` and inspect both `origin/main..main` and `main..origin/main`.
-2. Commit the audited tree locally and rerun all release gates.
-3. Run `git merge -s ours origin/main` with a message that records the
-   provisional-history reconciliation. The resulting tree must be identical to
-   the audited pre-merge tree.
-4. Confirm that `git rev-list --left-right --count main...origin/main` reports
-   no remote-only commits and that the worktree is clean.
-5. Push `main` normally, make it the default branch, then enable branch
-   protection with force pushes and deletion disabled.
-
-The merge commit is an ancestry bridge only; it does not expose runtime
-compatibility code or combine the two implementations.
+The remaining repository-side release gates are protection for `main`, an
+immutable `v*` tag ruleset, and a protected `release` environment. RubyGems
+Trusted Publisher ownership and maintainer MFA must also be confirmed before
+the first publication.
 
 ## Run the release gates
 
